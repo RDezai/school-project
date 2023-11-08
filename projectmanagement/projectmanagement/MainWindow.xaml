@@ -21,7 +21,8 @@
                 </Grid.RowDefinitions>
                 
                 <!--Menu Icon-->
-                <Button>
+                <Button HorizontalAlignment="Left" Margin="20 28 0 35">
+                    <Image Source="\src\mitarbeiter.png" Width="32" Height="32" />
                     
                 </Button>
             </Grid>
