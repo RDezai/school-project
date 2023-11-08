@@ -22,8 +22,44 @@
                 
                 <!--Menu Icon-->
                 <Button HorizontalAlignment="Left" Margin="20 28 0 35">
-                    <Image Source="\src\mitarbeiter.png" Width="32" Height="32" />
-                    
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="\src\mitarbeiter.png" Width="32" Height="32" Margin="0,0,10,0" />
+                        <TextBlock Text="Mitarbeiter" VerticalAlignment="Center" Foreground="blue" Margin="5,0,0,0"/>
+                    </StackPanel>
+                </Button>
+            </Grid>
+             <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                </Grid.RowDefinitions>
+                
+                <!--Menu Icon-->
+                <Button HorizontalAlignment="Left" Margin="20 28 0 35">
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="\src\mitarbeiter.png" Width="32" Height="32" Margin="0,0,10,0" />
+                        <TextBlock Text="Mitarbeiter" VerticalAlignment="Center" Foreground="blue" Margin="5,0,0,0"/>
+                    </StackPanel>
+                </Button>
+            </Grid>
+             <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                </Grid.RowDefinitions>
+                
+                <!--Menu Icon-->
+                <Button HorizontalAlignment="Left" Margin="20 28 0 35">
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="\src\mitarbeiter.png" Width="32" Height="32" Margin="0,0,10,0" />
+                        <TextBlock Text="Mitarbeiter" VerticalAlignment="Center" Foreground="blue" Margin="5,0,0,0"/>
+                    </StackPanel>
+                </Button>
+                 <Button HorizontalAlignment="Left" Margin="20 28 0 35">
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="\src\mitarbeiter.png" Width="32" Height="32" Margin="0,0,10,0" />
+                        <TextBlock Text="Mitarbeiter" VerticalAlignment="Center" Foreground="blue" Margin="5,0,0,0"/>
+                    </StackPanel>
                 </Button>
             </Grid>
         </Grid>
