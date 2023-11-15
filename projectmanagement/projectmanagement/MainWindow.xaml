@@ -19,7 +19,6 @@
                     <RowDefinition Height="auto"></RowDefinition>
                     <RowDefinition Height="*"></RowDefinition>
                 </Grid.RowDefinitions>
-                
                 <!--Menu Icon-->
                 <Button HorizontalAlignment="Left" Margin="20 28 0 35">
                     <StackPanel Orientation="Horizontal">
