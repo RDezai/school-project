@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SQLite;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,6 +25,39 @@ namespace projectmanagement
         public MainWindow()
         {
             InitializeComponent();
+            TextBlock textBlock = new TextBlock();
+            try
+            {
+                textBlock.Text = "Verbindungsaufbau";
+                string connectionString = "Data Source=C:\\Users\\Profil\\source\\repos\\school-project\\projectmanagement\\database\\database.db";
+
+                using (SQLiteConnection connection = new SQLiteConnection(connectionString))
+                {
+                    connection.Open();
+
+                    string selectQuery = "SELECT * FROM Mitarbeiter";
+
+                    using (SQLiteCommand command = new SQLiteCommand(selectQuery, connection))
+                    {
+                        using (SQLiteDataReader reader = command.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                int employeeID = reader.GetInt32(0);
+                                string firstName = reader.GetString(1);
+                                string lastName = reader.GetString(2);
+                                string position = reader.GetString(3);
+
+                                textBlock.Text+=($"MitarbeiterID: {employeeID}, Vorname: {firstName}, Nachname: {lastName}, Position: {position}");
+                            }
+                        }
+                    }
+                    connection.Close();
+                }
+            }
+            catch { textBlock.Text=("Datenbankverbindung fehlgeschlagen"); }
+
+            DBRet.Content = textBlock;
         }
     }
 }

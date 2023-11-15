@@ -12,14 +12,14 @@
                 <ColumnDefinition Width="200"></ColumnDefinition>
                 <ColumnDefinition Width="*"></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            
+
             <!--Left Menu-->
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto"></RowDefinition>
                     <RowDefinition Height="*"></RowDefinition>
                 </Grid.RowDefinitions>
-                
+
                 <!--Menu Icon-->
                 <Button HorizontalAlignment="Left" Margin="20 28 0 35">
                     <StackPanel Orientation="Horizontal">
@@ -28,12 +28,12 @@
                     </StackPanel>
                 </Button>
             </Grid>
-             <Grid>
+            <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto"></RowDefinition>
                     <RowDefinition Height="*"></RowDefinition>
                 </Grid.RowDefinitions>
-                
+
                 <!--Menu Icon-->
                 <Button HorizontalAlignment="Left" Margin="20 28 0 35">
                     <StackPanel Orientation="Horizontal">
@@ -42,12 +42,12 @@
                     </StackPanel>
                 </Button>
             </Grid>
-             <Grid>
+            <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto"></RowDefinition>
                     <RowDefinition Height="*"></RowDefinition>
                 </Grid.RowDefinitions>
-                
+
                 <!--Menu Icon-->
                 <Button HorizontalAlignment="Left" Margin="20 28 0 35">
                     <StackPanel Orientation="Horizontal">
@@ -55,14 +55,15 @@
                         <TextBlock Text="Mitarbeiter" VerticalAlignment="Center" Foreground="blue" Margin="5,0,0,0"/>
                     </StackPanel>
                 </Button>
-                 <Button HorizontalAlignment="Left" Margin="20 28 0 35">
+                <Button HorizontalAlignment="Left" Margin="20 28 0 35">
                     <StackPanel Orientation="Horizontal">
                         <Image Source="\src\mitarbeiter.png" Width="32" Height="32" Margin="0,0,10,0" />
                         <TextBlock Text="Mitarbeiter" VerticalAlignment="Center" Foreground="blue" Margin="5,0,0,0"/>
                     </StackPanel>
                 </Button>
             </Grid>
+            <Label Content="Label" HorizontalAlignment="Left" Margin="10,243,0,0" VerticalAlignment="Top" Height="83" Width="790" Grid.ColumnSpan="2" Name="DBRet"/>
         </Grid>
     </Border>
-    
+
 </Window>
