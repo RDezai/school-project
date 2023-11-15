@@ -43,12 +43,13 @@ namespace projectmanagement
                         {
                             while (reader.Read())
                             {
+
                                 int employeeID = reader.GetInt32(0);
                                 string firstName = reader.GetString(1);
                                 string lastName = reader.GetString(2);
-                                string position = reader.GetString(3);
+                                //string position = reader.GetString(3);
 
-                                textBlock.Text+=($"MitarbeiterID: {employeeID}, Vorname: {firstName}, Nachname: {lastName}, Position: {position}");
+                                textBlock.Text += ($"MitarbeiterID: {employeeID}, Vorname: {firstName}, Nachname: {lastName}");
                             }
                         }
                     }
