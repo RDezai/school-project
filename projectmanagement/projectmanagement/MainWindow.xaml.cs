@@ -56,7 +56,7 @@ namespace projectmanagement
                     connection.Close();
                 }
             }
-            catch { textBlock.Text=("Datenbankverbindung fehlgeschlagen"); }
+            catch (Exception exception) { textBlock.Text=("Datenbankverbindung fehlgeschlagen. " + exception); }
 
             DBRet.Content = textBlock;
         }
