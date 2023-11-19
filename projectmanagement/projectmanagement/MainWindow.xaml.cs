@@ -26,10 +26,11 @@ namespace projectmanagement
         {
             InitializeComponent();
             TextBlock textBlock = new TextBlock();
+            string connectionString = GetConnectionString();
+
             try
             {
-                textBlock.Text = "Verbindungsaufbau";
-                string connectionString = "Data Source=C:\\Users\\Profil\\source\\repos\\school-project\\projectmanagement\\database\\database.db";
+                textBlock.Text = "Verbindungsaufbau\n";
 
                 using (SQLiteConnection connection = new SQLiteConnection(connectionString))
                 {
@@ -49,16 +50,24 @@ namespace projectmanagement
                                 string lastName = reader.GetString(2);
                                 //string position = reader.GetString(3);
 
-                                textBlock.Text += ($"MitarbeiterID: {employeeID}, Vorname: {firstName}, Nachname: {lastName}");
+                                textBlock.Text += ($"MitarbeiterID: {employeeID}, Vorname: {firstName}, Nachname: {lastName}\n");
                             }
                         }
                     }
                     connection.Close();
                 }
             }
-            catch (Exception exception) { textBlock.Text=("Datenbankverbindung fehlgeschlagen. " + exception); }
+            catch (Exception exception) { textBlock.Text=("Datenbankverbindung fehlgeschlagen. " + connectionString + "\n"+ exception); }
 
             DBRet.Content = textBlock;
+        }
+
+        private static string GetConnectionString()
+        {
+            string path = System.IO.Directory.GetCurrentDirectory();
+            int projectManagementPosition = path.IndexOf("projectmanagement");
+            path = path.Substring(0, projectManagementPosition);
+            return "Data Source=" + path + "projectmanagement\\database\\database.db";
         }
     }
 }
