@@ -1,4 +1,5 @@
-﻿using System;
+﻿using projectmanagement.src;
+using System;
 using System.Collections.Generic;
 using System.Data.SQLite;
 using System.Diagnostics;
@@ -35,31 +36,47 @@ namespace projectmanagement
                 using (SQLiteConnection connection = new SQLiteConnection(connectionString))
                 {
                     connection.Open();
-
-                    string selectQuery = "SELECT * FROM Mitarbeiter";
-
-                    using (SQLiteCommand command = new SQLiteCommand(selectQuery, connection))
-                    {
-                        using (SQLiteDataReader reader = command.ExecuteReader())
-                        {
-                            while (reader.Read())
-                            {
-
-                                int employeeID = reader.GetInt32(0);
-                                string firstName = reader.GetString(1);
-                                string lastName = reader.GetString(2);
-                                //string position = reader.GetString(3);
-
-                                textBlock.Text += ($"MitarbeiterID: {employeeID}, Vorname: {firstName}, Nachname: {lastName}\n");
-                            }
-                        }
-                    }
+                    ShowProjektTable(connection, textBlock);
                     connection.Close();
                 }
             }
             catch (Exception exception) { textBlock.Text=("Datenbankverbindung fehlgeschlagen. " + connectionString + "\n"+ exception); }
 
             DBRet.Content = textBlock;
+        }
+
+        public void ShowMitarbeiterTable(SQLiteConnection connection, TextBlock textBlock)
+        {
+            string table = Mitarbeiter.GetTableName();
+            string selectQuery = "SELECT * FROM " + table;
+
+            using (SQLiteCommand command = new SQLiteCommand(selectQuery, connection))
+            {
+                using (SQLiteDataReader reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        textBlock.Text +=  Mitarbeiter.GetDatabaseObject(reader);
+                    }
+                }
+            }
+        }
+
+        public void ShowProjektTable(SQLiteConnection connection, TextBlock textBlock)
+        {
+            string table = Projekt.GetTableName();
+            string selectQuery = "SELECT * FROM " + table;
+
+            using (SQLiteCommand command = new SQLiteCommand(selectQuery, connection))
+            {
+                using (SQLiteDataReader reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        textBlock.Text += Projekt.GetDatabaseObject(reader);
+                    }
+                }
+            }
         }
 
         private static string GetConnectionString()
