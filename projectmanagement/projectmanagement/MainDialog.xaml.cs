@@ -13,16 +13,24 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace projectmanagement
+// MainDialog.xaml.cs
+using projectmanagement;
+
+namespace YourNamespace
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainDialog : Window
     {
-        public MainWindow()
+        public MainDialog()
         {
             InitializeComponent();
         }
+
+        private void MitarbeiterButton_Click(object sender, RoutedEventArgs e)
+        {
+            // Navigate to the EmployeeWindow
+            EmployeeWindow employeeWindow = new EmployeeWindow();
+            employeeWindow.Show();
+        }
     }
 }
+
