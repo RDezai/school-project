@@ -7,6 +7,31 @@
         mc:Ignorable="d"
         Title="EmployeeWindow" Height="450" Width="800">
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <DataGrid x:Name="dataGrid" Style="{DynamicResource DataGridStyle1}" 
+                  CellStyle="{DynamicResource DataGridStyle1}" ItemsSource="{Binding}" 
+                  ColumnWidth="*" HorizontalAlignment="Stretch">
+            <!-- Auto-generate columns based on the data source -->
+            <DataGrid.Columns>
+                <!-- Add a checkbox column -->
+                <DataGridCheckBoxColumn CanUserResize="False" Width="Auto" Header="Select" />
+                <!-- Add other columns here with ColumnWidth="*" -->
+                <DataGridTextColumn Header="Vorname" Binding="{Binding Vorname}" Width="*" />
+                <DataGridTextColumn Header="Nachname" Binding="{Binding Nachname}" Width="*" />
+                <DataGridTextColumn Header="Tel_Nr" Binding="{Binding Tel_Nr}" Width="*" />
+                <DataGridTextColumn Header="Abteilung" Binding="{Binding Abteilung}" Width="*" />
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <!-- Buttons for adding, editing, and deleting employees -->
+        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="10">
+            <Button Content="Add" Click="AddButton_Click" Margin="5"/>
+            <Button Content="Edit" Click="EditButton_Click" Margin="5"/>
+            <Button Content="Delete" Click="DeleteButton_Click" Margin="5"/>
+        </StackPanel>
     </Grid>
 </Window>
