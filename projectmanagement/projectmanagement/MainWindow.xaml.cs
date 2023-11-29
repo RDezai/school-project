@@ -23,6 +23,7 @@ namespace projectmanagement
                 SQLiteConnection connection = new SQLiteConnection(connectionString);
                 connection.Open();
                 ShowProjektTable(connection, textBlock);
+                ShowProjekPhasenTable(connection, textBlock);
                 connection.Close();
             }
             catch (Exception exception) { textBlock.Text = ("Datenbankverbindung fehlgeschlagen. " + connectionString + "\n" + exception); }
@@ -54,6 +55,18 @@ namespace projectmanagement
             while (reader.Read())
             {
                 textBlock.Text += Projekt.GetDatabaseObject(reader);
+            }
+        }
+        public void ShowProjekPhasenTable(SQLiteConnection connection, TextBlock textBlock)
+        {
+            string table = Projektphasen.GetTableName();
+            string selectQuery = "SELECT * FROM " + table;
+
+            SQLiteCommand command = new SQLiteCommand(selectQuery, connection);
+            SQLiteDataReader reader = command.ExecuteReader();
+            while (reader.Read())
+            {
+                textBlock.Text += Projektphasen.GetDatabaseObject(reader);
             }
         }
 

@@ -21,10 +21,10 @@ namespace projectmanagement.src
             Projektphasen Phase = new Projektphasen();
             Phase.PhasID = reader.GetInt32(0);
             Phase.Kennung = reader.GetString(1);
-            Phase.Bezeichnung = reader.GetString(2);
-            Phase.ProjID = reader.GetString(3);
-            Phase.Dauer = reader.GetInt32(4);
-            Phase.Vorg = reader.GetString(5);
+            /* Phase.Bezeichnung = reader.GetString(2);
+             Phase.ProjID = reader.GetString(3);
+             Phase.Dauer = reader.GetInt32(4);
+             Phase.Vorg = reader.GetString(5);*/
 
             return Phase;
         }

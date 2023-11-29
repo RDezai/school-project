@@ -8,13 +8,19 @@
         Title="MainWindow" Height="450" Width="800">
     <Border Background="#0566A4" CornerRadius="30">
         <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="198*"/>
+                <RowDefinition Height="39*"/>
+                <RowDefinition Height="186*"/>
+                <RowDefinition Height="11*"/>
+            </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="200"></ColumnDefinition>
                 <ColumnDefinition Width="*"></ColumnDefinition>
             </Grid.ColumnDefinitions>
 
             <!--Left Menu-->
-            <Grid>
+            <Grid Grid.RowSpan="4">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto"></RowDefinition>
                     <RowDefinition Height="*"></RowDefinition>
@@ -28,7 +34,7 @@
                     </StackPanel>
                 </Button>
             </Grid>
-            <Grid>
+            <Grid Grid.RowSpan="4">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto"></RowDefinition>
                     <RowDefinition Height="*"></RowDefinition>
@@ -42,7 +48,7 @@
                     </StackPanel>
                 </Button>
             </Grid>
-            <Grid>
+            <Grid Grid.RowSpan="4">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto"></RowDefinition>
                     <RowDefinition Height="*"></RowDefinition>
@@ -62,7 +68,7 @@
                     </StackPanel>
                 </Button>
             </Grid>
-            <Label Content="Label" HorizontalAlignment="Left" Margin="10,243,0,0" VerticalAlignment="Top" Height="83" Width="790" Grid.ColumnSpan="2" Name="DBRet"/>
+            <Label Content="Label" HorizontalAlignment="Left" Margin="-10,163,0,0" VerticalAlignment="Top" Height="252" Width="810" Grid.ColumnSpan="2" Name="DBRet" Grid.RowSpan="3"/>
         </Grid>
     </Border>
 
