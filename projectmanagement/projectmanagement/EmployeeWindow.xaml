@@ -20,10 +20,6 @@
                 <!-- Add a checkbox column -->
                 <DataGridCheckBoxColumn CanUserResize="False" Width="Auto" Header="Select" />
                 <!-- Add other columns here with ColumnWidth="*" -->
-                <DataGridTextColumn Header="Vorname" Binding="{Binding Vorname}" Width="*" />
-                <DataGridTextColumn Header="Nachname" Binding="{Binding Nachname}" Width="*" />
-                <DataGridTextColumn Header="Tel_Nr" Binding="{Binding Tel_Nr}" Width="*" />
-                <DataGridTextColumn Header="Abteilung" Binding="{Binding Abteilung}" Width="*" />
             </DataGrid.Columns>
         </DataGrid>
 

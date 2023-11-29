@@ -17,7 +17,7 @@ namespace projectmanagement
             LoadEmployeeData();
         }
 
-        private void LoadEmployeeData()
+        public void LoadEmployeeData()
         {
             try
             {
@@ -68,7 +68,10 @@ namespace projectmanagement
                         };
 
                         // Add the Mitarbeiter object to the list
-                        employees.Add(employee);
+                        if (employee.Vorname != null || employee.Vorname != " ")
+                        {
+                            employees.Add(employee);
+                        }
                     }
                 }
 
@@ -101,8 +104,8 @@ namespace projectmanagement
             };
 
             AddEmployeeWindow addEmployeeWindow = new AddEmployeeWindow(newEmployee);
-            addEmployeeWindow.Owner = this;
-            addEmployeeWindow.ShowDialog();
+            //addEmployeeWindow.Owner = this;
+            addEmployeeWindow.Show();
 
             LoadEmployeeData();
 
