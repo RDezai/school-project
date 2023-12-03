@@ -24,6 +24,7 @@ namespace projectmanagement
                 connection.Open();
                 ShowProjektTable(connection, textBlock);
                 ShowProjekPhasenTable(connection, textBlock);
+                ShowMitarbeiterTable(connection, textBlock);
                 connection.Close();
             }
             catch (Exception exception) { textBlock.Text = ("Datenbankverbindung fehlgeschlagen. " + connectionString + "\n" + exception); }
@@ -57,6 +58,7 @@ namespace projectmanagement
                 textBlock.Text += Projekt.GetDatabaseObject(reader);
             }
         }
+
         public void ShowProjekPhasenTable(SQLiteConnection connection, TextBlock textBlock)
         {
             string table = Projektphasen.GetTableName();
