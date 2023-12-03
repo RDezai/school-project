@@ -1,0 +1,45 @@
+﻿<Window x:Class="projectmanagement.AddEmployeeWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:projectmanagement"
+        mc:Ignorable="d"
+        Title="Add Employee" Height="300" Width="400">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <!-- Left side: Labels and Textboxes -->
+        <StackPanel Grid.Column="0" Margin="10">
+            <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
+                <TextBlock Text="Name:" VerticalAlignment="Center"/>
+                <TextBox x:Name="txtName" VerticalAlignment="Center" Width="148" Margin="50,0,0,0" TextChanged="txtName_TextChanged"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="0,5,0,5">
+                <TextBlock Text="Vorname:" VerticalAlignment="Center"/>
+                <TextBox x:Name="txtVorname" VerticalAlignment="Center" Margin="34,0,0,0" Width="148"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="0,5,0,5">
+                <TextBlock Text="Abteilung:" VerticalAlignment="Center"/>
+                <TextBox x:Name="txtAbteilung" VerticalAlignment="Center" Margin="30,0,0,0" Width="148"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                <TextBlock Text="Telefon:" VerticalAlignment="Center"/>
+                <TextBox x:Name="txtTelefon" VerticalAlignment="Center" Margin="44,0,0,0" Width="148" TextChanged="txtTelefon_TextChanged"/>
+            </StackPanel>
+        </StackPanel>
+
+        <!-- Right side: User image -->
+        <Image Source="src/user.png" Width="100" Height="100" HorizontalAlignment="Center" Margin="0,19,0,105" Grid.Column="1"></Image>
+        <!-- Save button at the bottom-right corner -->
+        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="10">
+            <Button Content="Speichern" Click="SaveButton_Click" Grid.Column="1" Margin="213,10,10,10"/>
+        </StackPanel>
+    </Grid>
+</Window>

@@ -8,6 +8,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="src\mitarbeiter.png" />
+    <None Remove="src\projekte.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="src\mitarbeiter.png" />
+    <Resource Include="src\projekte.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="System.Data.SQLite" Version="1.0.118" />
   </ItemGroup>
 
