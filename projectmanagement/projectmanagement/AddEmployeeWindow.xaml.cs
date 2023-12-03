@@ -34,7 +34,7 @@ namespace projectmanagement
                     Tel_Nr = txtTelefon.Text
                 };
 
-                SaveEmployeeToDatabase(newEmployee);
+                Backend.SaveEmployeeToDatabase(newEmployee);
 
                 if (Owner is EmployeeWindow mainWindow)
                 {
@@ -46,36 +46,6 @@ namespace projectmanagement
             else
             {
                 MessageBox.Show("Please fill in all required fields.", "Validation Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-        }
-
-        private void SaveEmployeeToDatabase(Mitarbeiter employee)
-        {
-            try
-            {
-                string connectionString = GetConnectionString();
-                string insertQuery = $"INSERT INTO {Mitarbeiter.GetTableName()} (Vorname, Nachname, Tel_Nr, Abteilung) " +
-                                     $"VALUES (@Vorname, @Nachname, @Tel_Nr, @Abteilung)";
-
-                using (SQLiteConnection connection = new SQLiteConnection(connectionString))
-                using (SQLiteCommand command = new SQLiteCommand(insertQuery, connection))
-                {
-                    command.Parameters.AddWithValue("@Vorname", employee.Vorname);
-                    command.Parameters.AddWithValue("@Nachname", employee.Nachname);
-                    command.Parameters.AddWithValue("@Tel_Nr", employee.Tel_Nr);
-                    command.Parameters.AddWithValue("@Abteilung", employee.Abteilung);
-
-                    connection.Open();
-                    command.ExecuteNonQuery();
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Error saving employee to the database: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-            if (Owner is EmployeeWindow mainWindow)
-            {
-                mainWindow.LoadEmployeeData();
             }
         }
 
@@ -97,14 +67,6 @@ namespace projectmanagement
         private void txtTelefon_TextChanged(object sender, TextChangedEventArgs e)
         {
             // Add custom logic if needed
-        }
-
-        private static string GetConnectionString()
-        {
-            string path = System.IO.Directory.GetCurrentDirectory();
-            int projectManagementPosition = path.IndexOf("projectmanagement");
-            path = path.Substring(0, projectManagementPosition);
-            return "Data Source=" + path + "projectmanagement\\database\\database.db";
         }
     }
 }

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace projectmanagement.src
 {
-    internal class Projektphasen
+    public class Projektphasen
     {
         public int PhasID;
         public string Kennung = "";
