@@ -16,8 +16,8 @@ namespace projectmanagement
             //mitarbeiter.MitarbeiterID = reader.GetInt32(0);
             mitarbeiter.Vorname = reader.GetString(1);
             mitarbeiter.Nachname = reader.GetString(2);
-           //mitarbeiter.Tel_Nr = reader.GetString(3);
-          //mitarbeiter.Abteilung = reader.GetString(4);
+            //mitarbeiter.Tel_Nr = reader.GetString(3);
+           // mitarbeiter.Abteilung = reader.GetString(4);
 
             return mitarbeiter;
         }

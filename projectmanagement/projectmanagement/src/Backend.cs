@@ -15,9 +15,9 @@ namespace projectmanagement
         private static Backend? backend;
         private SQLiteConnection connection;
 
-        public Backend()
+        private Backend(SQLiteConnection connection)
         {
-            connection = new SQLiteConnection(GetConnectionString());
+            this.connection = connection;
             try
             {
                 Console.WriteLine("Verbindungsaufbau...");
@@ -31,7 +31,9 @@ namespace projectmanagement
 
         public static void CreateBackend()
         {
-            backend = new Backend();
+            string connectionString = GetConnectionString();
+            SQLiteConnection connection = new SQLiteConnection(connectionString);
+            backend = new Backend(connection);
         }
 
         private static string GetConnectionString()
@@ -40,6 +42,14 @@ namespace projectmanagement
             int projectManagementPosition = path.IndexOf("projectmanagement");
             path = path.Substring(0, projectManagementPosition);
             return "Data Source=" + path + "projectmanagement\\database\\database.db";
+        }
+
+        public static void CloseConnection()
+        {
+            if (backend != null && backend.connection != null)
+            {
+                backend.connection.Close();
+            }
         }
 
         public static List<Mitarbeiter> GetMitarbeiterList()
