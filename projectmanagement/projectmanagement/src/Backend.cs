@@ -103,7 +103,7 @@ namespace projectmanagement
                 string deleteQuery = $"DELETE FROM {Mitarbeiter.GetTableName()} WHERE Vorname = @Vorname AND Nachname = @Nachname";
                 SQLiteCommand command = new SQLiteCommand(deleteQuery, backend.connection);
                 command.Parameters.AddWithValue("@Vorname", employee.Vorname);
-                command.Parameters.AddWithValue("@Vorname", employee.Nachname);
+                command.Parameters.AddWithValue("@Nachname", employee.Nachname);
                 command.ExecuteNonQuery();
             }
             catch (Exception ex)
@@ -130,6 +130,25 @@ namespace projectmanagement
             catch (Exception ex)
             {
                 MessageBox.Show($"Error saving employee to the database: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+        public static void UpdateEmployee(Mitarbeiter employee)
+        {
+            try
+            {
+                string updateQuery = $"UPDATE {Mitarbeiter.GetTableName()} SET Tel_Nr = @Tel_Nr, Abteilung = @Abteilung WHERE Vorname = @Vorname AND Nachname = @Nachname";
+
+                SQLiteCommand command = new SQLiteCommand(updateQuery, backend.connection);
+                command.Parameters.AddWithValue("@Tel_Nr", employee.Tel_Nr);
+                command.Parameters.AddWithValue("@Abteilung", employee.Abteilung);
+                command.Parameters.AddWithValue("@Vorname", employee.Vorname);
+                command.Parameters.AddWithValue("@Nachname", employee.Nachname);
+
+                command.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error updating employee: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
