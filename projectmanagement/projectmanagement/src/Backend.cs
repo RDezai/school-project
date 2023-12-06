@@ -52,30 +52,53 @@ namespace projectmanagement
             }
         }
 
-        public static List<Mitarbeiter> GetMitarbeiterList()
-        {
-            if (backend.connection != null)
-            {
-                string table = Mitarbeiter.GetTableName();
-                string selectQuery = "SELECT * FROM " + table;
 
+        public static List<T> ExecuteQuery<T>(string tableName, string selectQuery, Func<SQLiteDataReader, T> getObject)
+        {
+            List<T> resultList = new List<T>();
+            try
+            {
                 SQLiteCommand command = new SQLiteCommand(selectQuery, backend.connection);
                 SQLiteDataReader reader = command.ExecuteReader();
 
-                List<Mitarbeiter> mitarbeiterList = new List<Mitarbeiter>();
                 while (reader.Read())
                 {
-                    Mitarbeiter databaseMitarbeiter = Mitarbeiter.GetDatabaseObject(reader);
-                    mitarbeiterList.Add(databaseMitarbeiter);
+                    T databaseObject = getObject(reader);
+                    resultList.Add(databaseObject);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Fehler beim Ausführen der Abfrage für Tabelle {tableName}: {ex.Message}", "Fehler", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+
+            return resultList;
+        }
+
+        public static void ExecuteNonQuery(string query, List<SQLiteParameter> parameters)
+        {
+            try
+            {
+                SQLiteCommand command = new SQLiteCommand(query, backend.connection);
+                if (parameters != null)
+                {
+                    command.Parameters.AddRange(parameters.ToArray());
                 }
 
-                return mitarbeiterList;
+                command.ExecuteNonQuery();
             }
-            else
+            catch (Exception ex)
             {
-                // Handle null connection, e.g., log an error or throw an exception
-                return new List<Mitarbeiter>(); // or return null, depending on your error handling strategy
+                MessageBox.Show($"Fehler beim Ausführen der Nicht-Abfrage: {ex.Message}", "Fehler", MessageBoxButton.OK, MessageBoxImage.Error);
             }
+        }
+
+        public static List<Mitarbeiter> GetMitarbeiterList()
+        {
+            string table = Mitarbeiter.GetTableName();
+            string selectQuery = "SELECT * FROM " + table;
+
+            return ExecuteQuery(table, selectQuery, Mitarbeiter.GetDatabaseObject);
         }
 
         public static List<Projekt> GetProjectList()
@@ -83,17 +106,7 @@ namespace projectmanagement
             string table = Projekt.GetTableName();
             string selectQuery = "SELECT * FROM " + table;
 
-            SQLiteCommand command = new SQLiteCommand(selectQuery, backend.connection);
-            SQLiteDataReader reader = command.ExecuteReader();
-
-            List<Projekt> projectList = new List<Projekt>();
-            while (reader.Read())
-            {
-                Projekt databaseProject = Projekt.GetDatabaseObject(reader);
-                projectList.Add(databaseProject);
-            }
-
-            return projectList;
+            return ExecuteQuery(table, selectQuery, Projekt.GetDatabaseObject);
         }
 
         public static List<Projektphasen> GetProjectPhasenList()
@@ -101,17 +114,7 @@ namespace projectmanagement
             string table = Projektphasen.GetTableName();
             string selectQuery = "SELECT * FROM " + table;
 
-            SQLiteCommand command = new SQLiteCommand(selectQuery, backend.connection);
-            SQLiteDataReader reader = command.ExecuteReader();
-
-            List<Projektphasen> projectPhasenList = new List<Projektphasen>();
-            while (reader.Read())
-            {
-                Projektphasen databaseProjektPhasen = Projektphasen.GetDatabaseObject(reader);
-                projectPhasenList.Add(databaseProjektPhasen);
-            }
-
-            return projectPhasenList;
+            return ExecuteQuery(table, selectQuery, Projektphasen.GetDatabaseObject);
         }
 
         public static void DeleteEmployee(Mitarbeiter employee)
@@ -119,14 +122,15 @@ namespace projectmanagement
             try
             {
                 string deleteQuery = $"DELETE FROM {Mitarbeiter.GetTableName()} WHERE Vorname = @Vorname AND Nachname = @Nachname";
-                SQLiteCommand command = new SQLiteCommand(deleteQuery, backend.connection);
-                command.Parameters.AddWithValue("@Vorname", employee.Vorname);
-                command.Parameters.AddWithValue("@Nachname", employee.Nachname);
-                command.ExecuteNonQuery();
+                ExecuteNonQuery(deleteQuery, new List<SQLiteParameter>
+        {
+            new SQLiteParameter("@Vorname", employee.Vorname),
+            new SQLiteParameter("@Nachname", employee.Nachname)
+        });
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error deleting employee: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"Fehler beim Löschen des Mitarbeiters: {ex.Message}", "Fehler", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -137,38 +141,40 @@ namespace projectmanagement
                 string insertQuery = $"INSERT INTO {Mitarbeiter.GetTableName()} (Vorname, Nachname, Tel_Nr, Abteilung) " +
                                      $"VALUES (@Vorname, @Nachname, @Tel_Nr, @Abteilung)";
 
-                SQLiteCommand command = new SQLiteCommand(insertQuery, backend.connection);
-                command.Parameters.AddWithValue("@Vorname", employee.Vorname);
-                command.Parameters.AddWithValue("@Nachname", employee.Nachname);
-                command.Parameters.AddWithValue("@Tel_Nr", employee.Tel_Nr);
-                command.Parameters.AddWithValue("@Abteilung", employee.Abteilung);
-
-                command.ExecuteNonQuery();
+                ExecuteNonQuery(insertQuery, new List<SQLiteParameter>
+        {
+            new SQLiteParameter("@Vorname", employee.Vorname),
+            new SQLiteParameter("@Nachname", employee.Nachname),
+            new SQLiteParameter("@Tel_Nr", employee.Tel_Nr),
+            new SQLiteParameter("@Abteilung", employee.Abteilung)
+        });
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error saving employee to the database: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"Fehler beim Speichern des Mitarbeiters in der Datenbank: {ex.Message}", "Fehler", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
+
         public static void UpdateEmployee(Mitarbeiter employee)
         {
             try
             {
                 string updateQuery = $"UPDATE {Mitarbeiter.GetTableName()} SET Tel_Nr = @Tel_Nr, Abteilung = @Abteilung WHERE Vorname = @Vorname AND Nachname = @Nachname";
 
-                SQLiteCommand command = new SQLiteCommand(updateQuery, backend.connection);
-                command.Parameters.AddWithValue("@Tel_Nr", employee.Tel_Nr);
-                command.Parameters.AddWithValue("@Abteilung", employee.Abteilung);
-                command.Parameters.AddWithValue("@Vorname", employee.Vorname);
-                command.Parameters.AddWithValue("@Nachname", employee.Nachname);
-
-                command.ExecuteNonQuery();
+                ExecuteNonQuery(updateQuery, new List<SQLiteParameter>
+        {
+            new SQLiteParameter("@Tel_Nr", employee.Tel_Nr),
+            new SQLiteParameter("@Abteilung", employee.Abteilung),
+            new SQLiteParameter("@Vorname", employee.Vorname),
+            new SQLiteParameter("@Nachname", employee.Nachname)
+        });
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error updating employee: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"Fehler beim Aktualisieren des Mitarbeiters: {ex.Message}", "Fehler", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
+
         public static void SaveProjectToDatabase(Projekt project)
         {
             try
@@ -176,17 +182,17 @@ namespace projectmanagement
                 string insertQuery = $"INSERT INTO {Projekt.GetTableName()} (ProjektBezeichnung, VerantwortlichePersonalnummer, VonDatum, BisDatum) " +
                                      $"VALUES (@ProjektBezeichnung, @VerantwortlichePersonalnummer, @VonDatum, @BisDatum)";
 
-                SQLiteCommand command = new SQLiteCommand(insertQuery, backend.connection);
-                command.Parameters.AddWithValue("@ProjektBezeichnung", project.ProjektBezeichnung);
-                command.Parameters.AddWithValue("@VerantwortlichePersonalnummer", project.VerantwortlichePersonalnummer);
-                command.Parameters.AddWithValue("@VonDatum", project.VonDatum);
-                command.Parameters.AddWithValue("@BisDatum", project.BisDatum);
-
-                command.ExecuteNonQuery();
+                ExecuteNonQuery(insertQuery, new List<SQLiteParameter>
+        {
+            new SQLiteParameter("@ProjektBezeichnung", project.ProjektBezeichnung),
+            new SQLiteParameter("@VerantwortlichePersonalnummer", project.VerantwortlichePersonalnummer),
+            new SQLiteParameter("@VonDatum", project.VonDatum),
+            new SQLiteParameter("@BisDatum", project.BisDatum)
+        });
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error saving project to the database: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"Fehler beim Speichern des Projekts in der Datenbank: {ex.Message}", "Fehler", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -199,61 +205,63 @@ namespace projectmanagement
                                      "VonDatum = @VonDatum, BisDatum = @BisDatum " +
                                      "WHERE ProjektID = @ProjektID";
 
-                SQLiteCommand command = new SQLiteCommand(updateQuery, backend.connection);
-                command.Parameters.AddWithValue("@ProjektBezeichnung", project.ProjektBezeichnung);
-                command.Parameters.AddWithValue("@VerantwortlichePersonalnummer", project.VerantwortlichePersonalnummer);
-                command.Parameters.AddWithValue("@VonDatum", project.VonDatum.ToString("yyyy-MM-dd"));
-                command.Parameters.AddWithValue("@BisDatum", project.BisDatum.ToString("yyyy-MM-dd"));
-                command.Parameters.AddWithValue("@ProjektID", project.projektID);
-
-                command.ExecuteNonQuery();
+                ExecuteNonQuery(updateQuery, new List<SQLiteParameter>
+        {
+            new SQLiteParameter("@ProjektBezeichnung", project.ProjektBezeichnung),
+            new SQLiteParameter("@VerantwortlichePersonalnummer", project.VerantwortlichePersonalnummer),
+            new SQLiteParameter("@VonDatum", project.VonDatum.ToString("yyyy-MM-dd")),
+            new SQLiteParameter("@BisDatum", project.BisDatum.ToString("yyyy-MM-dd")),
+            new SQLiteParameter("@ProjektID", project.projektID)
+        });
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error updating project: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"Fehler beim Aktualisieren des Projekts: {ex.Message}", "Fehler", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
+
         public static void DeleteProject(Projekt project)
         {
-           try
-           {
+            try
+            {
                 string deleteQuery = $"DELETE FROM {Projekt.GetTableName()} WHERE ProjektID = @ProjektID";
-                SQLiteCommand command = new SQLiteCommand(deleteQuery, backend.connection);
-                command.Parameters.AddWithValue("@ProjektID", project.projektID);
-                command.ExecuteNonQuery();
-           }
-           catch (Exception ex)
-           {
-               MessageBox.Show($"Error deleting project: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-           }
+                ExecuteNonQuery(deleteQuery, new List<SQLiteParameter>
+        {
+            new SQLiteParameter("@ProjektID", project.projektID)
+        });
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Fehler beim Löschen des Projekts: {ex.Message}", "Fehler", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
+
         public static void AddProjectPhase(Projektphasen projectPhase)
         {
             try
             {
-                // Fügen Sie die Projektphase zur Datenbank hinzu
                 string insertQuery = $"INSERT INTO {Projektphasen.GetTableName()} (Kennung, Bezeichnung, ProjID, Dauer, Vorg) " +
                                      "VALUES (@Kennung, @Bezeichnung, @ProjID, @Dauer, @Vorg)";
 
-                SQLiteCommand command = new SQLiteCommand(insertQuery, backend.connection);
-                command.Parameters.AddWithValue("@Kennung", projectPhase.Kennung);
-                command.Parameters.AddWithValue("@Bezeichnung", projectPhase.Bezeichnung);
-                command.Parameters.AddWithValue("@ProjID", projectPhase.ProjID);
-                command.Parameters.AddWithValue("@Dauer", projectPhase.Dauer);
-                command.Parameters.AddWithValue("@Vorg", projectPhase.Vorg);
-
-                command.ExecuteNonQuery();
+                ExecuteNonQuery(insertQuery, new List<SQLiteParameter>
+        {
+            new SQLiteParameter("@Kennung", projectPhase.Kennung),
+            new SQLiteParameter("@Bezeichnung", projectPhase.Bezeichnung),
+            new SQLiteParameter("@ProjID", projectPhase.ProjID),
+            new SQLiteParameter("@Dauer", projectPhase.Dauer),
+            new SQLiteParameter("@Vorg", projectPhase.Vorg)
+        });
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error adding project phase: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"Fehler beim Hinzufügen der Projektphase: {ex.Message}", "Fehler", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
+
         public static Projektphasen GetProjectPhaseDetails(int phaseID)
         {
             try
             {
-                // Abrufen der Details einer bestimmten Projektphase aus der Datenbank
                 string selectQuery = $"SELECT * FROM {Projektphasen.GetTableName()} WHERE PhasID = @PhasID";
                 SQLiteCommand command = new SQLiteCommand(selectQuery, backend.connection);
                 command.Parameters.AddWithValue("@PhasID", phaseID);
@@ -262,39 +270,36 @@ namespace projectmanagement
 
                 if (reader.Read())
                 {
-                    // Erstellen und zurückgeben Sie ein Projektphasen-Objekt aus den Daten
                     return Projektphasen.GetDatabaseObject(reader);
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error getting project phase details: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"Fehler beim Abrufen der Details zur Projektphase: {ex.Message}", "Fehler", MessageBoxButton.OK, MessageBoxImage.Error);
             }
 
             return null;
         }
+
         public static void AddNewProjectPhase(Projektphasen newPhase)
         {
             try
             {
-                // Fügen Sie die neue Projektphase zur Datenbank hinzu
                 string insertQuery = $"INSERT INTO {Projektphasen.GetTableName()} (Kennung, Bezeichnung, ProjID, Dauer, Vorg) " +
                                      "VALUES (@Kennung, @Bezeichnung, @ProjID, @Dauer, @Vorg)";
 
-                SQLiteCommand command = new SQLiteCommand(insertQuery, backend.connection);
-                command.Parameters.AddWithValue("@Kennung", newPhase.Kennung);
-                command.Parameters.AddWithValue("@Bezeichnung", newPhase.Bezeichnung);
-                command.Parameters.AddWithValue("@ProjID", newPhase.ProjID);
-                command.Parameters.AddWithValue("@Dauer", newPhase.Dauer);
-                command.Parameters.AddWithValue("@Vorg", newPhase.Vorg);
-
-                command.ExecuteNonQuery();
-
-
+                ExecuteNonQuery(insertQuery, new List<SQLiteParameter>
+        {
+            new SQLiteParameter("@Kennung", newPhase.Kennung),
+            new SQLiteParameter("@Bezeichnung", newPhase.Bezeichnung),
+            new SQLiteParameter("@ProjID", newPhase.ProjID),
+            new SQLiteParameter("@Dauer", newPhase.Dauer),
+            new SQLiteParameter("@Vorg", newPhase.Vorg)
+        });
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error adding new project phase: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"Fehler beim Hinzufügen einer neuen Projektphase: {ex.Message}", "Fehler", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
