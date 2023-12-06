@@ -44,8 +44,7 @@ namespace projectmanagement
         }
         private void EditButton_Click(object sender, RoutedEventArgs e)
         {
-            //Handle editing selected employee
-            //Implement the logic to open a new window and edit selected employee.
+           
             Mitarbeiter selectedEmployee = dataGrid.SelectedItem as Mitarbeiter;
 
             if (selectedEmployee != null)
