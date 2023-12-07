@@ -30,15 +30,15 @@ namespace projectmanagement
             // Initialize the list of employees (replace this with your actual data retrieval logic)
             mitarbeiter = new List<Mitarbeiter>
             {
-                new mitarbeiter { Name = "Employee1" },
+                /*new employee { Name = "Employee1" },
                 new Employee { Name = "Employee2" },
-                // Add more employees as needed
+                // Add more employees as needed*/
             };
         }
 
         private void AuswaehlenButton_Click(object sender, RoutedEventArgs e)
         {
-            // Open the employee selection window
+            /*// Open the employee selection window
             EmployeeSelectionWindow employeeSelectionWindow = new EmployeeSelectionWindow(employees);
             employeeSelectionWindow.Owner = this;
 
@@ -46,7 +46,7 @@ namespace projectmanagement
             {
                 // Set the selected employee in the "Verantwortlicher" TextBox
                 TextBoxVerantwortlicher.Text = employeeSelectionWindow.SelectedEmployee.Name;
-            }
+            }*/
         }
 
         private void HinzufuegenButton_Click(object sender, RoutedEventArgs e)
