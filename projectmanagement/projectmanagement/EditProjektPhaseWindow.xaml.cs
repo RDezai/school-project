@@ -21,7 +21,7 @@ namespace projectmanagement
     public partial class EditProjektWindow : Window
     {
         private Projektphasen selectedPhase;
-        private Project selectedProject;
+        private Projekt selectedProject;
 
         public EditProjektWindow()
         {
@@ -33,7 +33,7 @@ namespace projectmanagement
             this.selectedPhase = selectedPhase;
         }
 
-        public EditProjektWindow(Project selectedProject)
+        public EditProjektWindow(Projekt selectedProject)
         {
             this.selectedProject = selectedProject;
         }

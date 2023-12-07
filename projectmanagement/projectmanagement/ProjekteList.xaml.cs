@@ -23,7 +23,7 @@ namespace projectmanagement
             try
             {
                 // Fetch data from the database using Backend
-                List<Project> projects = Backend.GetProjectList();
+                List<Projekt> projects = Backend.GetProjectList();
 
                 // Bind data to the DataGrid
                 dataGrid.ItemsSource = projects;
@@ -36,7 +36,7 @@ namespace projectmanagement
 
         private void AddProjektButton_Click(object sender, RoutedEventArgs e)
         {
-            Project newProject = new Project
+            Projekt newProject = new Projekt
             {
                 ProjektBezeichnung = "New Project",
                 VerantwortlichePersonalnummer = 1,
@@ -60,7 +60,7 @@ namespace projectmanagement
 
         private void EditProjektButton_Click(object sender, RoutedEventArgs e)
         {
-            Project selectedProject = dataGrid.SelectedItem as Project;
+            Projekt selectedProject = dataGrid.SelectedItem as Projekt;
 
             if (selectedProject != null)
             {
@@ -80,7 +80,7 @@ namespace projectmanagement
         private void DeleteProjekt_Click(object sender, RoutedEventArgs e)
         {
             // Handle deleting the selected project
-            Project selectedProject = dataGrid.SelectedItem as Project;
+            Projekt selectedProject = dataGrid.SelectedItem as Projekt;
 
             if (selectedProject != null)
             {
