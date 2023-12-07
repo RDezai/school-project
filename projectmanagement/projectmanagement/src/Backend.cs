@@ -162,10 +162,7 @@ namespace projectmanagement
                 string updateQuery = $"UPDATE {Mitarbeiter.GetTableName()} SET Tel_Nr = @Tel_Nr, Abteilung = @Abteilung WHERE Vorname = @Vorname AND Nachname = @Nachname";
 
                 ExecuteNonQuery(updateQuery, new List<SQLiteParameter>
-        {
-            new SQLiteParameter("@Tel_Nr", employee.Tel_Nr),
-            new SQLiteParameter("@Abteilung", employee.Abteilung),
-            new SQLiteParameter("@Vorname", employee.Vorname),
+        {            new SQLiteParameter("@Vorname", employee.Vorname),
             new SQLiteParameter("@Nachname", employee.Nachname)
         });
             }
@@ -193,6 +190,9 @@ namespace projectmanagement
             catch (Exception ex)
             {
                 MessageBox.Show($"Fehler beim Speichern des Projekts in der Datenbank: {ex.Message}", "Fehler", MessageBoxButton.OK, MessageBoxImage.Error);
+
+            new SQLiteParameter("@Tel_Nr", employee.Tel_Nr),
+            new SQLiteParameter("@Abteilung", employee.Abteilung),
             }
         }
 

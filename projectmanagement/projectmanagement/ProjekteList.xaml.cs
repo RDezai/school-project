@@ -44,19 +44,18 @@ namespace projectmanagement
                 BisDatum = DateTime.Now.AddDays(10)
             };
 
-            // New Window for adding new project
-            AddProjektWindow addProjektWindow = new AddProjektWindow(newProjekt);
-            addProjektWindow.Owner = this; // Uncomment if needed
+            ProjektDetailsWindow projektDetailsWindow = new ProjektDetailsWindow(new Project());
+            projektDetailsWindow.Owner = this;
 
-            addProjektWindow.Show();
+            projektDetailsWindow.ShowDialog();
 
             LoadProjectData();
         }
 
-        private AddProjektPhaseWindow AddProjektPhaseWindow(Projektphasen newPhase)
+        /*private AddProjektPhaseWindow AddProjektPhaseWindow(Projektphasen newPhase)
         {
             throw new NotImplementedException();
-        }
+        }*/
 
         private void EditProjektButton_Click(object sender, RoutedEventArgs e)
         {
@@ -64,10 +63,10 @@ namespace projectmanagement
 
             if (selectedProject != null)
             {
-                //Open a new window to edit the selected project
-                EditProjektWindow editProjektWindow = new EditProjektWindow(selectedProject);
-                editProjektWindow.Owner = this;
-                editProjektWindow.Show();
+                ProjektDetailsWindow projektDetailsWindow = new ProjektDetailsWindow(selectedProject);
+                projektDetailsWindow.Owner = this;
+
+                projektDetailsWindow.ShowDialog();
 
                 LoadProjectData();
             }

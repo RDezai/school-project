@@ -22,9 +22,9 @@ namespace projectmanagement.src
             Phase.PhasID = reader.GetInt32(0);
             Phase.Kennung = reader.GetString(1);
             Phase.Bezeichnung = reader.GetString(2);
-            //Phase.ProjID = reader.GetInt32(3);  // Use index 3 for ProjID
-            //Phase.Dauer = reader.GetInt32(4);
-            //Phase.Vorg = reader.GetString(5);
+            Phase.ProjID = reader.GetInt32(3);  // Use index 3 for ProjID
+            Phase.Dauer = reader.GetInt32(4);
+            Phase.Vorg = reader.GetString(5);
 
             return Phase;
         }
