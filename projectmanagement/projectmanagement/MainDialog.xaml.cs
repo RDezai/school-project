@@ -21,6 +21,12 @@ namespace projectmanagement
             EmployeeWindow employeeWindow = new EmployeeWindow();
             employeeWindow.Show();
         }
+        private void ProjekteButton_Click(object sender, RoutedEventArgs e)
+        {
+            // Navigate to the Projekte Window
+            ProjekteList projekteList = new ProjekteList();
+            projekteList.Show();
+        }
     }
 }
 

@@ -7,16 +7,34 @@ using System.Threading.Tasks;
 
 namespace projectmanagement
 {
-    public class Projekt
+    public class Project
     {
         public int projektID;
         public string projektBezeichnung = "";
 
-        public static Projekt GetDatabaseObject(SQLiteDataReader reader)
+        public static Project GetDatabaseObject(SQLiteDataReader reader)
         {
-            Projekt project = new Projekt();
+            Project project = new Project();
             project.projektID = reader.GetInt32(0);
             project.projektBezeichnung = reader.GetString(1);
+
+            // Check if the column is DBNull before reading
+            if (!reader.IsDBNull(2))
+            {
+                project.VerantwortlichePersonalnummer = reader.GetInt32(2);
+            }
+
+            // Check if the column is DBNull before reading
+            if (!reader.IsDBNull(3))
+            {
+                project.VonDatum = reader.GetDateTime(3);
+            }
+
+            // Check if the column is DBNull before reading
+            if (!reader.IsDBNull(4))
+            {
+                project.BisDatum = reader.GetDateTime(4);
+            }
 
             return project;
         }
@@ -30,6 +48,6 @@ namespace projectmanagement
         {
             return $"Projekt: (ProjektID: {projektID}, Bezeichnung: {projektBezeichnung})\n";
         }
-
     }
+
 }
