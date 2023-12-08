@@ -93,12 +93,12 @@ namespace projectmanagement
             }
         }
 
-        public static List<Mitarbeiter> GetMitarbeiterList()
+        public static List<employee> GetEmployeesList()
         {
-            string table = Mitarbeiter.GetTableName();
+            string table = employee.GetTableName();
             string selectQuery = "SELECT * FROM " + table;
 
-            return ExecuteQuery(table, selectQuery, Mitarbeiter.GetDatabaseObject);
+            return ExecuteQuery(table, selectQuery, employee.GetDatabaseObject);
         }
 
         public static List<Project> GetProjectList()
@@ -109,19 +109,19 @@ namespace projectmanagement
             return ExecuteQuery(table, selectQuery, Project.GetDatabaseObject);
         }
 
-        public static List<Projektphasen> GetProjectPhasenList()
+        public static List<Projectphases> GetProjectPhasenList()
         {
-            string table = Projektphasen.GetTableName();
+            string table = Projectphases.GetTableName();
             string selectQuery = "SELECT * FROM " + table;
 
-            return ExecuteQuery(table, selectQuery, Projektphasen.GetDatabaseObject);
+            return ExecuteQuery(table, selectQuery, Projectphases.GetDatabaseObject);
         }
 
-        public static void DeleteEmployee(Mitarbeiter employee)
+        public static void DeleteEmployee(employee employee)
         {
             try
             {
-                string deleteQuery = $"DELETE FROM {Mitarbeiter.GetTableName()} WHERE Vorname = @Vorname AND Nachname = @Nachname";
+                string deleteQuery = $"DELETE FROM {employee.GetTableName()} WHERE Vorname = @Vorname AND Nachname = @Nachname";
                 ExecuteNonQuery(deleteQuery, new List<SQLiteParameter>
         {
             new SQLiteParameter("@Vorname", employee.Vorname),
@@ -134,11 +134,11 @@ namespace projectmanagement
             }
         }
 
-        public static void SaveEmployeeToDatabase(Mitarbeiter employee)
+        public static void AddSaveEmployeeToDatabase(employee employee)
         {
             try
             {
-                string insertQuery = $"INSERT INTO {Mitarbeiter.GetTableName()} (Vorname, Nachname, Tel_Nr, Abteilung) " +
+                string insertQuery = $"INSERT INTO {employee.GetTableName()} (Vorname, Nachname, Tel_Nr, Abteilung) " +
                                      $"VALUES (@Vorname, @Nachname, @Tel_Nr, @Abteilung)";
 
                 ExecuteNonQuery(insertQuery, new List<SQLiteParameter>
@@ -155,15 +155,18 @@ namespace projectmanagement
             }
         }
 
-        public static void UpdateEmployee(Mitarbeiter employee)
+        public static void UpdateEmployee(employee employee)
         {
             try
             {
-                string updateQuery = $"UPDATE {Mitarbeiter.GetTableName()} SET Tel_Nr = @Tel_Nr, Abteilung = @Abteilung WHERE Vorname = @Vorname AND Nachname = @Nachname";
+                string updateQuery = $"UPDATE {employee.GetTableName()} SET Tel_Nr = @Tel_Nr, Abteilung = @Abteilung WHERE Vorname = @Vorname AND Nachname = @Nachname";
 
                 ExecuteNonQuery(updateQuery, new List<SQLiteParameter>
-        {            new SQLiteParameter("@Vorname", employee.Vorname),
-            new SQLiteParameter("@Nachname", employee.Nachname)
+        {
+            new SQLiteParameter("@Vorname", employee.Vorname),
+            new SQLiteParameter("@Nachname", employee.Nachname),
+             new SQLiteParameter("@Tel_Nr", employee.Tel_Nr),
+            new SQLiteParameter("@Abteilung", employee.Abteilung)
         });
             }
             catch (Exception ex)
@@ -171,6 +174,7 @@ namespace projectmanagement
                 MessageBox.Show($"Fehler beim Aktualisieren des Mitarbeiters: {ex.Message}", "Fehler", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
+
 
         public static void SaveProjectToDatabase(Project project)
         {
@@ -191,8 +195,6 @@ namespace projectmanagement
             {
                 MessageBox.Show($"Fehler beim Speichern des Projekts in der Datenbank: {ex.Message}", "Fehler", MessageBoxButton.OK, MessageBoxImage.Error);
 
-            /*new SQLiteParameter("@Tel_Nr", employee.Tel_Nr),
-            new SQLiteParameter("@Abteilung", employee.Abteilung),*/
             }
         }
 
@@ -236,11 +238,11 @@ namespace projectmanagement
             }
         }
 
-        public static void AddProjectPhase(Projektphasen projectPhase)
+        public static void AddProjectPhase(Projectphases projectPhase)
         {
             try
             {
-                string insertQuery = $"INSERT INTO {Projektphasen.GetTableName()} (Kennung, Bezeichnung, ProjID, Dauer, Vorg) " +
+                string insertQuery = $"INSERT INTO {Projectphases.GetTableName()} (Kennung, Bezeichnung, ProjID, Dauer, Vorg) " +
                                      "VALUES (@Kennung, @Bezeichnung, @ProjID, @Dauer, @Vorg)";
 
                 ExecuteNonQuery(insertQuery, new List<SQLiteParameter>
@@ -258,11 +260,11 @@ namespace projectmanagement
             }
         }
 
-        public static Projektphasen GetProjectPhaseDetails(int phaseID)
+        public static Projectphases GetProjectPhaseDetails(int phaseID)
         {
             try
             {
-                string selectQuery = $"SELECT * FROM {Projektphasen.GetTableName()} WHERE PhasID = @PhasID";
+                string selectQuery = $"SELECT * FROM {Projectphases.GetTableName()} WHERE PhasID = @PhasID";
                 SQLiteCommand command = new SQLiteCommand(selectQuery, backend.connection);
                 command.Parameters.AddWithValue("@PhasID", phaseID);
 
@@ -270,7 +272,7 @@ namespace projectmanagement
 
                 if (reader.Read())
                 {
-                    return Projektphasen.GetDatabaseObject(reader);
+                    return Projectphases.GetDatabaseObject(reader);
                 }
             }
             catch (Exception ex)
@@ -281,11 +283,11 @@ namespace projectmanagement
             return null;
         }
 
-        public static void AddNewProjectPhase(Projektphasen newPhase)
+        public static void AddNewProjectPhase(Projectphases newPhase)
         {
             try
             {
-                string insertQuery = $"INSERT INTO {Projektphasen.GetTableName()} (Kennung, Bezeichnung, ProjID, Dauer, Vorg) " +
+                string insertQuery = $"INSERT INTO {Projectphases.GetTableName()} (Kennung, Bezeichnung, ProjID, Dauer, Vorg) " +
                                      "VALUES (@Kennung, @Bezeichnung, @ProjID, @Dauer, @Vorg)";
 
                 ExecuteNonQuery(insertQuery, new List<SQLiteParameter>
@@ -303,7 +305,7 @@ namespace projectmanagement
             }
         }
 
-        internal static void DeleteProject(Projektphasen selectedPhase)
+        internal static void DeleteProject(Projectphases selectedPhase)
         {
             throw new NotImplementedException();
         }

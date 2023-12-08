@@ -7,6 +7,22 @@
         mc:Ignorable="d"
         Title="EditEmployeeWindow" Height="450" Width="800">
     <Grid>
-        
+        <StackPanel Margin="10">
+            <TextBlock Text="Edit Employee" FontWeight="Bold" FontSize="16" Margin="0,0,0,10"/>
+
+            <TextBlock Text="Vorname:"/>
+            <TextBox x:Name="txtVorname" Margin="0,0,0,10"/>
+
+            <TextBlock Text="Nachname:"/>
+            <TextBox x:Name="txtName" Margin="0,0,0,10"/>
+
+            <TextBlock Text="Abteilung:"/>
+            <TextBox x:Name="txtAbteilung" Margin="0,0,0,10"/>
+
+            <TextBlock Text="Telefon:"/>
+            <TextBox x:Name="txtTelefon" Margin="0,0,0,10"/>
+
+            <Button Content="Save" Click="SaveButton_Click"/>
+        </StackPanel>
     </Grid>
 </Window>

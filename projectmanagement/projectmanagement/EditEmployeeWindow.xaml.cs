@@ -1,29 +1,58 @@
-﻿using projectmanagement.src;
-using System;
+﻿using projectmanagement;
 using System.Data.SQLite;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+using System.Xml.Linq;
+using System;
 
-namespace projectmanagement
+public partial class EditEmployeeWindow : Window
 {
-    /// <summary>
-    /// Interaction logic for EditEmployeeWindow.xaml
-    /// </summary>
-    public partial class EditEmployeeWindow : Window
-    {
-        private Mitarbeiter _employee;
+    private employee existingEmployee;
+    private object txtName;
+    private object txtVorname;
 
-        public EditEmployeeWindow(Mitarbeiter employee)
+    public EditEmployeeWindow(employee existingEmployee)
+    {
+        InitializeComponent();
+
+        this.existingEmployee = existingEmployee;
+
+        // Set initial values if provided
+        txtName.Text = existingEmployee.Nachname;
+        txtVorname.Text = existingEmployee.Vorname;
+        txtAbteilung.Text = existingEmployee.Abteilung;
+        txtTelefon.Text = existingEmployee.Tel_Nr;
+    }
+
+    private void InitializeComponent()
+    {
+        throw new NotImplementedException();
+    }
+
+    private void SaveButton_Click(object sender, RoutedEventArgs e)
+    {
+        // Validate input and save the employee changes to the database
+        if (IsValidInput())
         {
-            InitializeComponent();
-            _employee = employee;
-            // Perform additional initialization if needed
+            // Update the existing Mitarbeiter object with the entered data
+            existingEmployee.Vorname = txtVorname.Text;
+            existingEmployee.Nachname = txtName.Text;
+            existingEmployee.Abteilung = txtAbteilung.Text;
+            existingEmployee.Tel_Nr = txtTelefon.Text;
+
+            SaveEmployeeToDatabase(existingEmployee);
+
+            if (Owner is EmployeeWindow mainWindow)
+            {
+                mainWindow.LoadEmployeeData();
+            }
+
+            // Close the window after saving
+            Close();
+        }
+        else
+        {
+            MessageBox.Show("Please fill in all required fields.", "Validation Error", MessageBoxButton.OK, MessageBoxImage.Error);
         }
     }
+
 }

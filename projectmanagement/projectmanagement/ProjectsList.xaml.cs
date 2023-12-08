@@ -7,11 +7,11 @@ using projectmanagement.src;
 
 namespace projectmanagement
 {
-    public partial class ProjekteList : Window
+    public partial class ProjectsList : Window
     {
-        private object newProjekt;
+        private object newProject;
 
-        public ProjekteList()
+        public ProjectsList()
         {
             InitializeComponent();
             DataContext = this;
@@ -34,7 +34,7 @@ namespace projectmanagement
             }
         }
 
-        private void AddProjektButton_Click(object sender, RoutedEventArgs e)
+        private void AddProjectButton_Click(object sender, RoutedEventArgs e)
         {
             Project newProject = new Project
             {
@@ -44,10 +44,10 @@ namespace projectmanagement
                 BisDatum = DateTime.Now.AddDays(10)
             };
 
-            ProjektDetailsWindow projektDetailsWindow = new ProjektDetailsWindow(new Project());
-            projektDetailsWindow.Owner = this;
+            ProjectDetailsWindow ProjectDetailsWindow = new ProjectDetailsWindow(new Project());
+            ProjectDetailsWindow.Owner = this;
 
-            projektDetailsWindow.ShowDialog();
+            ProjectDetailsWindow.ShowDialog();
 
             LoadProjectData();
         }
@@ -57,16 +57,16 @@ namespace projectmanagement
             throw new NotImplementedException();
         }*/
 
-        private void EditProjektButton_Click(object sender, RoutedEventArgs e)
+        private void EditProjectButton_Click(object sender, RoutedEventArgs e)
         {
             Project selectedProject = dataGrid.SelectedItem as Project;
 
             if (selectedProject != null)
             {
-                ProjektDetailsWindow projektDetailsWindow = new ProjektDetailsWindow(selectedProject);
-                projektDetailsWindow.Owner = this;
+                ProjectDetailsWindow projectDetailsWindow = new ProjectDetailsWindow(selectedProject);
+                projectDetailsWindow.Owner = this;
 
-                projektDetailsWindow.ShowDialog();
+                projectDetailsWindow.ShowDialog();
 
                 LoadProjectData();
             }
@@ -76,7 +76,7 @@ namespace projectmanagement
             }
         }
 
-        private void DeleteProjekt_Click(object sender, RoutedEventArgs e)
+        private void DeleteProject_Click(object sender, RoutedEventArgs e)
         {
             // Handle deleting the selected project
             Project selectedProject = dataGrid.SelectedItem as Project;

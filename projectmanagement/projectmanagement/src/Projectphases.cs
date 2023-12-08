@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace projectmanagement.src
 {
-    public class Projektphasen
+    public class Projectphases
     {
         public int PhasID;
         public string Kennung = "";
@@ -16,9 +16,9 @@ namespace projectmanagement.src
         public int Dauer;
         public string Vorg = "";
 
-        public static Projektphasen GetDatabaseObject(SQLiteDataReader reader)
+        public static Projectphases GetDatabaseObject(SQLiteDataReader reader)
         {
-            Projektphasen Phase = new Projektphasen();
+            Projectphases Phase = new Projectphases();
             Phase.PhasID = reader.GetInt32(0);
             Phase.Kennung = reader.GetString(1);
             Phase.Bezeichnung = reader.GetString(2);

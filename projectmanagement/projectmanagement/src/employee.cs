@@ -2,7 +2,7 @@
 
 namespace projectmanagement
 {
-    public class Mitarbeiter
+    public class employee
     {
         public int MitarbeiterID { get; set; }
         public string Vorname { get; set; }
@@ -10,16 +10,16 @@ namespace projectmanagement
         public string Tel_Nr { get; set; }
         public string Abteilung { get; set; }
 
-        public static Mitarbeiter GetDatabaseObject(SQLiteDataReader reader)
+        public static employee GetDatabaseObject(SQLiteDataReader reader)
         {
-            Mitarbeiter mitarbeiter = new Mitarbeiter();
-            mitarbeiter.MitarbeiterID = reader.GetInt32(0);
-            mitarbeiter.Vorname = reader.GetString(1);
-            mitarbeiter.Nachname = reader.GetString(2);
-            mitarbeiter.Tel_Nr = reader.GetInt32(3).ToString();
-            mitarbeiter.Abteilung = reader.GetString(4);
+            employee employee = new employee();
+            employee.MitarbeiterID = reader.GetInt32(0);
+            employee.Vorname = reader.GetString(1);
+            employee.Nachname = reader.GetString(2);
+            employee.Tel_Nr = reader.GetInt32(3).ToString();
+            employee.Abteilung = reader.GetString(4);
 
-            return mitarbeiter;
+            return employee;
         }
 
         public static string GetTableName()

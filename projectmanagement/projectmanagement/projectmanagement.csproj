@@ -9,12 +9,12 @@
 
   <ItemGroup>
     <None Remove="src\mitarbeiter.png" />
-    <None Remove="src\projekte.png" />
+    <None Remove="src\projects.png" />
   </ItemGroup>
 
   <ItemGroup>
     <Resource Include="src\mitarbeiter.png" />
-    <Resource Include="src\projekte.png" />
+    <Resource Include="src\projects.png" />
   </ItemGroup>
 
   <ItemGroup>

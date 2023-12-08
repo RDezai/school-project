@@ -4,12 +4,12 @@ using System.Windows;
 
 namespace projectmanagement
 {
-    public partial class ProjektDetailsWindow : Window
+    public partial class ProjectDetailsWindow : Window
     {
         //  list of employees for the "Verantwortlicher" selection
-        private List<Mitarbeiter> mitarbeiter;
+        private List<employee> mitarbeiter;
 
-        public ProjektDetailsWindow(Project project)
+        public ProjectDetailsWindow(Project project)
         {
             InitializeComponent();
             InitializeEmployeeList(); // Initialize the list of employees
@@ -28,7 +28,7 @@ namespace projectmanagement
         private void InitializeEmployeeList()
         {
             // Initialize the list of employees (replace this with your actual data retrieval logic)
-            mitarbeiter = new List<Mitarbeiter>
+            mitarbeiter = new List<employee>
             {
                 /*new employee { Name = "Employee1" },
                 new Employee { Name = "Employee2" },
@@ -36,7 +36,7 @@ namespace projectmanagement
             };
         }
 
-        private void AuswaehlenButton_Click(object sender, RoutedEventArgs e)
+        private void SelectButton_Click(object sender, RoutedEventArgs e)
         {
             /*// Open the employee selection window
             EmployeeSelectionWindow employeeSelectionWindow = new EmployeeSelectionWindow(employees);
@@ -49,7 +49,7 @@ namespace projectmanagement
             }*/
         }
 
-        private void HinzufuegenButton_Click(object sender, RoutedEventArgs e)
+        private void AddButton_Click(object sender, RoutedEventArgs e)
         {
             // Add logic to handle the addition of phases (Phasen) here
             // You may open a new window or use a dialog to input phase details

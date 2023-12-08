@@ -1,4 +1,4 @@
-﻿<Window x:Class="projectmanagement.ProjekteList"
+﻿<Window x:Class="projectmanagement.ProjectsList"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -23,9 +23,9 @@
 
         <!-- Buttons for adding, editing, and deleting employees -->
         <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="10">
-            <Button Content="Add" Click="AddProjektButton_Click" Margin="5"/>
-            <Button Content="Edit" Click="EditProjektButton_Click" Margin="5"/>
-            <Button Content="Delete" Click="DeleteProjekt_Click" Margin="5"/>
+            <Button Content="Add" Click="AddProjectButton_Click" Margin="5"/>
+            <Button Content="Edit" Click="EditProjectButton_Click" Margin="5"/>
+            <Button Content="Delete" Click="DeleteProject_Click" Margin="5"/>
         </StackPanel>
     </Grid>
 </Window>

@@ -9,7 +9,7 @@ namespace projectmanagement
 {
     public partial class AddEmployeeWindow : Window
     {
-        public AddEmployeeWindow(Mitarbeiter newEmployee)
+        public AddEmployeeWindow(employee newEmployee)
         {
             InitializeComponent();
 
@@ -26,7 +26,7 @@ namespace projectmanagement
             if (IsValidInput())
             {
                 // Create a new Mitarbeiter object with the entered data
-                Mitarbeiter newEmployee = new Mitarbeiter
+                employee newEmployee = new employee
                 {
                     Vorname = txtVorname.Text,
                     Nachname = txtName.Text,
@@ -34,7 +34,7 @@ namespace projectmanagement
                     Tel_Nr = txtTelefon.Text
                 };
 
-                Backend.SaveEmployeeToDatabase(newEmployee);
+                Backend.AddSaveEmployeeToDatabase(newEmployee);
 
                 if (Owner is EmployeeWindow mainWindow)
                 {

@@ -15,17 +15,17 @@ namespace projectmanagement
             Backend.CreateBackend();
         }
 
-        private void MitarbeiterButton_Click(object sender, RoutedEventArgs e)
+        private void EmployeesButton_Click(object sender, RoutedEventArgs e)
         {
             // Navigate to the EmployeeWindow
             EmployeeWindow employeeWindow = new EmployeeWindow();
             employeeWindow.Show();
         }
-        private void ProjekteButton_Click(object sender, RoutedEventArgs e)
+        private void ProjectsButton_Click(object sender, RoutedEventArgs e)
         {
             // Navigate to the Projekte Window
-            ProjekteList projekteList = new ProjekteList();
-            projekteList.Show();
+            ProjectsList projectsList = new ProjectsList();
+            projectsList.Show();
         }
     }
 }

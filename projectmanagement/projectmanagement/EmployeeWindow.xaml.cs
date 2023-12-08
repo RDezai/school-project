@@ -20,14 +20,14 @@ namespace projectmanagement
         public void LoadEmployeeData()
         {
             // Fetch data from the database
-            List<Mitarbeiter> employees = Backend.GetMitarbeiterList();
+            List<employee> employees = Backend.GetEmployeesList();
             // Bind data to the DataGrid
             dataGrid.ItemsSource = employees;
         }
 
         private void AddButton_Click(object sender, RoutedEventArgs e)
         {
-            Mitarbeiter newEmployee = new Mitarbeiter
+            employee newEmployee = new employee
             {
                 Vorname = "New",
                 Nachname = "Employee",
@@ -45,7 +45,7 @@ namespace projectmanagement
         private void EditButton_Click(object sender, RoutedEventArgs e)
         {
            
-            Mitarbeiter selectedEmployee = dataGrid.SelectedItem as Mitarbeiter;
+            employee selectedEmployee = dataGrid.SelectedItem as employee;
 
             if (selectedEmployee != null)
             {
@@ -65,7 +65,7 @@ namespace projectmanagement
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
             //Handle deleting the selected Employee
-            Mitarbeiter selectedEmployee = dataGrid.SelectedItem as Mitarbeiter;
+            employee selectedEmployee = dataGrid.SelectedItem as employee;
 
             if (selectedEmployee != null)
             {
