@@ -7,9 +7,9 @@ using System.Windows.Controls;
 
 namespace projectmanagement
 {
-    public partial class AddEmployeeWindow : Window
+    public partial class EmployeeDetailsWindow : Window
     {
-        public AddEmployeeWindow(employee newEmployee)
+        public EmployeeDetailsWindow(Employee newEmployee)
         {
             InitializeComponent();
 
@@ -26,7 +26,7 @@ namespace projectmanagement
             if (IsValidInput())
             {
                 // Create a new Mitarbeiter object with the entered data
-                employee newEmployee = new employee
+                Employee newEmployee = new Employee
                 {
                     Vorname = txtVorname.Text,
                     Nachname = txtName.Text,

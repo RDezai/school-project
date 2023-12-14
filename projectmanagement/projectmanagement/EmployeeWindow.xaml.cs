@@ -9,7 +9,13 @@ using projectmanagement;
 namespace projectmanagement
 {
     public partial class EmployeeWindow : Window
+
     {
+        public bool IsSelectionMode { get; set; } = false;
+        
+        //store selected employee.
+        public Employee SelectedEmployee { get; private set; }
+
         public EmployeeWindow()
         {
             InitializeComponent();
@@ -20,14 +26,14 @@ namespace projectmanagement
         public void LoadEmployeeData()
         {
             // Fetch data from the database
-            List<employee> employees = Backend.GetEmployeesList();
+            List<Employee> employees = Backend.GetEmployeesList();
             // Bind data to the DataGrid
             dataGrid.ItemsSource = employees;
         }
 
         private void AddButton_Click(object sender, RoutedEventArgs e)
         {
-            employee newEmployee = new employee
+            Employee newEmployee = new Employee
             {
                 Vorname = "New",
                 Nachname = "Employee",
@@ -35,37 +41,19 @@ namespace projectmanagement
                 Abteilung = "IT"
             };
 
-            AddEmployeeWindow addEmployeeWindow = new AddEmployeeWindow(newEmployee);
+            EmployeeDetailsWindow employeeDetailsWindow = new EmployeeDetailsWindow(newEmployee);
             //addEmployeeWindow.Owner = this;
-            addEmployeeWindow.Show();
+            employeeDetailsWindow.Show();
 
             LoadEmployeeData();
 
         }
-        private void EditButton_Click(object sender, RoutedEventArgs e)
-        {
-           
-            employee selectedEmployee = dataGrid.SelectedItem as employee;
-
-            if (selectedEmployee != null)
-            {
-                EditEmployeeWindow editEmployeeWindow = new EditEmployeeWindow(selectedEmployee);
-                editEmployeeWindow.Owner = this;
-                editEmployeeWindow.ShowDialog();
-
-                //Refresh the Data Grid after editing an employee.
-                LoadEmployeeData();
-            }
-            else
-            {
-                MessageBox.Show("Please select an employee to edit.", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
-            }
-        }
+     
 
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
             //Handle deleting the selected Employee
-            employee selectedEmployee = dataGrid.SelectedItem as employee;
+            Employee selectedEmployee = dataGrid.SelectedItem as Employee;
 
             if (selectedEmployee != null)
             {
@@ -79,7 +67,7 @@ namespace projectmanagement
                     LoadEmployeeData();
                 }
             } 
-            else
+            else 
             {
                 MessageBox.Show("Please select an employee to delete.", 
                     "Information", 
@@ -87,5 +75,38 @@ namespace projectmanagement
                     MessageBoxImage.Information);
             }
         }
+
+        private void EditButton_Click(object sender, RoutedEventArgs e)
+        {
+            Employee selectedEmployee = dataGrid.SelectedItem as Employee;
+
+            if (selectedEmployee != null)
+            {
+                EmployeeDetailsWindow employeeDetailsWindow = new EmployeeDetailsWindow(selectedEmployee);
+                employeeDetailsWindow.Owner = this;
+
+                employeeDetailsWindow.ShowDialog();
+
+                LoadEmployeeData();
+            }
+            else
+            {
+                MessageBox.Show("Please select a phase to edit.", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+        }
+
+        private void dataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (IsSelectionMode)
+            {
+                SelectedEmployee = dataGrid.SelectedItem as Employee;
+                if (SelectedEmployee != null)
+                {
+                    DialogResult = true;
+                    Close();
+                }
+            }
+        }
+
     }
 }

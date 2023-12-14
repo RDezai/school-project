@@ -39,7 +39,7 @@ namespace projectmanagement
             Project newProject = new Project
             {
                 ProjektBezeichnung = "New Project",
-                VerantwortlichePersonalnummer = 1,
+                VerantwortlichePersonalnummer = "1",
                 VonDatum = DateTime.Now,
                 BisDatum = DateTime.Now.AddDays(10)
             };
@@ -72,7 +72,7 @@ namespace projectmanagement
             }
             else
             {
-                MessageBox.Show("Please select a phase to edit.", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show("Please select project to edit.", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
             }
         }
 

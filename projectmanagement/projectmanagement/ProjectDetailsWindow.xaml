@@ -40,7 +40,8 @@
             <Label Content="Vorgänger:"/>
             <TextBox x:Name="TextBoxVorgaenger"/>
 
-            <Button Content="Hinzufügen" Click="AddButton_Click"/>
+            <Button Content="Hinzufügen" Click="AddProject_Click"/>
         </StackPanel>
+       
     </Grid>
 </Window>
