@@ -28,7 +28,7 @@ public partial class EditEmployeeWindow : Window
         throw new NotImplementedException();
     }
 
-    /*private void SaveButton_Click(object sender, RoutedEventArgs e)
+    private void SaveButton_Click(object sender, RoutedEventArgs e)
     {
         // Validate input and save the employee changes to the database
         if (IsValidInput())
@@ -53,6 +53,6 @@ public partial class EditEmployeeWindow : Window
         {
             MessageBox.Show("Please fill in all required fields.", "Validation Error", MessageBoxButton.OK, MessageBoxImage.Error);
         }
-    }*/
+    }
 
 }
