@@ -19,8 +19,8 @@ namespace projectmanagement
             if (project != null)
             {
                 TextBoxBezeichnung.Text = project.ProjektBezeichnung;
-                DatePickerStartdatum.SelectedDate = project.VonDatum;
-                DatePickerEnddatum.SelectedDate = project.BisDatum;
+                DatePickerStartdatum.SelectedDate = project.Startdatum;
+                DatePickerEnddatum.SelectedDate = project.Enddatum;
                 // Set other fields accordingly
             }
         }
@@ -50,13 +50,13 @@ namespace projectmanagement
                 Project newProject = new Project
                 {
                     ProjektBezeichnung = TextBoxBezeichnung.Text,
-                    VerantwortlichePersonalnummer = TextBoxVerantwortlicher.Text,
-                    VonDatum = DatePickerStartdatum.SelectedDate.GetValueOrDefault(DateTime.Now), // or handle null differently
-                    BisDatum = DatePickerEnddatum.SelectedDate.GetValueOrDefault(DateTime.Now)
+                    Verantwortlicher = TextBoxVerantwortlicher.Text,
+                    Startdatum = DatePickerStartdatum.SelectedDate.GetValueOrDefault(DateTime.Now), // or handle null differently
+                    Enddatum = DatePickerEnddatum.SelectedDate.GetValueOrDefault(DateTime.Now)
 
                 };
 
-                Backend.SaveProjectToDatabase(newProject);
+                Backend.UpdateProject(newProject);
 
                 /*if (Owner is ProjectsList mainWindow)
                 {
@@ -73,18 +73,10 @@ namespace projectmanagement
 
         private bool IsValidInput()
         {
-            bool validMainDetails = !string.IsNullOrWhiteSpace(TextBoxBezeichnung.Text) &&
-                                    !string.IsNullOrWhiteSpace(TextBoxVerantwortlicher.Text) &&
-                                    DatePickerStartdatum.SelectedDate.HasValue &&
-                                    DatePickerEnddatum.SelectedDate.HasValue;
-            if (!validMainDetails)
-            {
-                return false; // Return false immediately if main details are not valid
-            }
-            // Assuming the start date should be before or equal to the end date
-            bool validDateRange = DatePickerStartdatum.SelectedDate <= DatePickerEnddatum.SelectedDate;
-
-            return validDateRange;
+            return !string.IsNullOrWhiteSpace(TextBoxBezeichnung.Text) ||
+           DatePickerStartdatum.SelectedDate.HasValue ||
+           DatePickerEnddatum.SelectedDate.HasValue ||
+           !string.IsNullOrWhiteSpace(TextBoxVerantwortlicher.Text);
         }
     }
 }

@@ -39,9 +39,9 @@ namespace projectmanagement
             Project newProject = new Project
             {
                 ProjektBezeichnung = "New Project",
-                VerantwortlichePersonalnummer = "1",
-                VonDatum = DateTime.Now,
-                BisDatum = DateTime.Now.AddDays(10)
+                Verantwortlicher = "",
+                Startdatum = DateTime.Now,
+                Enddatum = DateTime.Now.AddDays(10)
             };
 
             ProjectDetailsWindow ProjectDetailsWindow = new ProjectDetailsWindow(new Project());
