@@ -203,7 +203,7 @@ namespace projectmanagement
             try
             {
                 string updateQuery = $"UPDATE {Project.GetTableName()} SET ProjektBezeichnung = @ProjektBezeichnung, " +
-                                     "VerantwortlichePersonalnummer = @VerantwortlichePersonalnummer, " +
+                                     "Verantwortlicher = @Verantwortlicher, " +
                                      "Startdatum = @Startdatum, Enddatum = @Enddatum " +
                                      "WHERE ProjektID = @ProjektID";
 
