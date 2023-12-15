@@ -93,12 +93,12 @@ namespace projectmanagement
             }
         }
 
-        public static List<employee> GetEmployeesList()
+        public static List<Employee> GetEmployeesList()
         {
-            string table = employee.GetTableName();
+            string table = Employee.GetTableName();
             string selectQuery = "SELECT * FROM " + table;
 
-            return ExecuteQuery(table, selectQuery, employee.GetDatabaseObject);
+            return ExecuteQuery(table, selectQuery, Employee.GetDatabaseObject);
         }
 
         public static List<Project> GetProjectList()
@@ -117,11 +117,11 @@ namespace projectmanagement
             return ExecuteQuery(table, selectQuery, Projectphases.GetDatabaseObject);
         }
 
-        public static void DeleteEmployee(employee employee)
+        public static void DeleteEmployee(Employee employee)
         {
             try
             {
-                string deleteQuery = $"DELETE FROM {employee.GetTableName()} WHERE Vorname = @Vorname AND Nachname = @Nachname";
+                string deleteQuery = $"DELETE FROM {Employee.GetTableName()} WHERE Vorname = @Vorname AND Nachname = @Nachname";
                 ExecuteNonQuery(deleteQuery, new List<SQLiteParameter>
         {
             new SQLiteParameter("@Vorname", employee.Vorname),
@@ -134,11 +134,11 @@ namespace projectmanagement
             }
         }
 
-        public static void AddSaveEmployeeToDatabase(employee employee)
+        public static void AddSaveEmployeeToDatabase(Employee employee)
         {
             try
             {
-                string insertQuery = $"INSERT INTO {employee.GetTableName()} (Vorname, Nachname, Tel_Nr, Abteilung) " +
+                string insertQuery = $"INSERT INTO {Employee.GetTableName()} (Vorname, Nachname, Tel_Nr, Abteilung) " +
                                      $"VALUES (@Vorname, @Nachname, @Tel_Nr, @Abteilung)";
 
                 ExecuteNonQuery(insertQuery, new List<SQLiteParameter>
@@ -155,11 +155,11 @@ namespace projectmanagement
             }
         }
 
-        public static void UpdateEmployee(employee employee)
+        public static void UpdateEmployee(Employee employee)
         {
             try
             {
-                string updateQuery = $"UPDATE {employee.GetTableName()} SET Tel_Nr = @Tel_Nr, Abteilung = @Abteilung WHERE Vorname = @Vorname AND Nachname = @Nachname";
+                string updateQuery = $"UPDATE {Employee.GetTableName()} SET Tel_Nr = @Tel_Nr, Abteilung = @Abteilung WHERE Vorname = @Vorname AND Nachname = @Nachname";
 
                 ExecuteNonQuery(updateQuery, new List<SQLiteParameter>
         {
@@ -181,7 +181,7 @@ namespace projectmanagement
             try
             {
                 string insertQuery = $"INSERT INTO {Project.GetTableName()} (ProjektBezeichnung, VerantwortlichePersonalnummer, VonDatum, BisDatum) " +
-                                     $"VALUES (@ProjektBezeichnung, @VerantwortlichePersonalnummer, @VonDatum, @BisDatum)";
+                                     $"VALUES (@Pr ojektBezeichnung, @VerantwortlichePersonalnummer, @VonDatum, @BisDatum)";
 
                 ExecuteNonQuery(insertQuery, new List<SQLiteParameter>
         {
@@ -213,7 +213,7 @@ namespace projectmanagement
             new SQLiteParameter("@VerantwortlichePersonalnummer", project.VerantwortlichePersonalnummer),
             new SQLiteParameter("@VonDatum", project.VonDatum.ToString("yyyy-MM-dd")),
             new SQLiteParameter("@BisDatum", project.BisDatum.ToString("yyyy-MM-dd")),
-            new SQLiteParameter("@ProjektID", project.projektID)
+            new SQLiteParameter("@ProjektID", project.projectID)
         });
             }
             catch (Exception ex)
@@ -229,7 +229,7 @@ namespace projectmanagement
                 string deleteQuery = $"DELETE FROM {Project.GetTableName()} WHERE ProjektID = @ProjektID";
                 ExecuteNonQuery(deleteQuery, new List<SQLiteParameter>
         {
-            new SQLiteParameter("@ProjektID", project.projektID)
+            new SQLiteParameter("@ProjektID", project.projectID)
         });
             }
             catch (Exception ex)

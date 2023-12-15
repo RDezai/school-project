@@ -9,22 +9,22 @@ namespace projectmanagement
 {
     public class Project
     {
-        public int projektID;
+        public int projectID;
         public string ProjektBezeichnung { get; set; }
-        public int VerantwortlichePersonalnummer { get; set; }
+        public string VerantwortlichePersonalnummer { get; set; }
         public DateTime VonDatum { get; set; }
         public DateTime BisDatum { get; set; }
 
         public static Project GetDatabaseObject(SQLiteDataReader reader)
         {
             Project project = new Project();
-            project.projektID = reader.GetInt32(0);
+            project.projectID = reader.GetInt32(0);
             project.ProjektBezeichnung = reader.GetString(1);
 
             // Check if the column is DBNull before reading
             if (!reader.IsDBNull(2))
             {
-                project.VerantwortlichePersonalnummer = reader.GetInt32(2);
+                project.VerantwortlichePersonalnummer = reader.GetInt32(2).ToString();
             }
 
             // Check if the column is DBNull before reading
@@ -49,7 +49,7 @@ namespace projectmanagement
 
         public override string ToString()
         {
-            return $"Projekt: (ProjektID: {projektID}, Bezeichnung: {ProjektBezeichnung})\n";
+            return $"Projekt: (ProjektID: {projectID}, Bezeichnung: {ProjektBezeichnung})\n";
         }
     }
 

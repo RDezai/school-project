@@ -1,19 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows;
+using System.Xml.Linq;
 
 namespace projectmanagement
 {
     public partial class ProjectDetailsWindow : Window
     {
         //  list of employees for the "Verantwortlicher" selection
-        private List<employee> mitarbeiter;
+        private List<Employee> mitarbeiter;
 
         public ProjectDetailsWindow(Project project)
         {
             InitializeComponent();
-            InitializeEmployeeList(); // Initialize the list of employees
-
+           
             // Set data context or populate fields based on the provided project
             // For simplicity, let's assume the Project class has properties Bezeichnung, Startdatum, Enddatum, etc.
             if (project != null)
@@ -25,35 +25,66 @@ namespace projectmanagement
             }
         }
 
-        private void InitializeEmployeeList()
-        {
-            // Initialize the list of employees (replace this with your actual data retrieval logic)
-            mitarbeiter = new List<employee>
-            {
-                /*new employee { Name = "Employee1" },
-                new Employee { Name = "Employee2" },
-                // Add more employees as needed*/
-            };
-        }
-
         private void SelectButton_Click(object sender, RoutedEventArgs e)
         {
-            /*// Open the employee selection window
-            EmployeeSelectionWindow employeeSelectionWindow = new EmployeeSelectionWindow(employees);
-            employeeSelectionWindow.Owner = this;
+            EmployeeSelectionWindow selectionWindow = new EmployeeSelectionWindow();
+            selectionWindow.Owner = this;
 
-            if (employeeSelectionWindow.ShowDialog() == true)
+            if (selectionWindow.ShowDialog() == true)
             {
-                // Set the selected employee in the "Verantwortlicher" TextBox
-                TextBoxVerantwortlicher.Text = employeeSelectionWindow.SelectedEmployee.Name;
-            }*/
+                var selectedEmployee = selectionWindow.SelectedEmployee;
+                if (selectedEmployee != null)
+                {
+                    TextBoxVerantwortlicher.Text = $"{selectedEmployee.Vorname} {selectedEmployee.Nachname}";
+                }
+            }
         }
 
-        private void AddButton_Click(object sender, RoutedEventArgs e)
+
+
+        private void AddProject_Click(object sender, RoutedEventArgs e)
         {
-            // Add logic to handle the addition of phases (Phasen) here
-            // You may open a new window or use a dialog to input phase details
-            // and update the UI accordingly.
+            if (IsValidInput())
+            {
+                // Create a new Project object with the entered data
+                Project newProject = new Project
+                {
+                    ProjektBezeichnung = TextBoxBezeichnung.Text,
+                    VerantwortlichePersonalnummer = TextBoxVerantwortlicher.Text,
+                    VonDatum = DatePickerStartdatum.SelectedDate.GetValueOrDefault(DateTime.Now), // or handle null differently
+                    BisDatum = DatePickerEnddatum.SelectedDate.GetValueOrDefault(DateTime.Now)
+
+                };
+
+                Backend.SaveProjectToDatabase(newProject);
+
+                /*if (Owner is ProjectsList mainWindow)
+                {
+                    mainWindow.LoadProjectData();
+                }
+                // Close the window after saving*/
+                Close();
+            }
+            else
+            {
+                MessageBox.Show("Please fill in all required fields.", "Validation Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private bool IsValidInput()
+        {
+            bool validMainDetails = !string.IsNullOrWhiteSpace(TextBoxBezeichnung.Text) &&
+                                    !string.IsNullOrWhiteSpace(TextBoxVerantwortlicher.Text) &&
+                                    DatePickerStartdatum.SelectedDate.HasValue &&
+                                    DatePickerEnddatum.SelectedDate.HasValue;
+            if (!validMainDetails)
+            {
+                return false; // Return false immediately if main details are not valid
+            }
+            // Assuming the start date should be before or equal to the end date
+            bool validDateRange = DatePickerStartdatum.SelectedDate <= DatePickerEnddatum.SelectedDate;
+
+            return validDateRange;
         }
     }
 }
