@@ -193,7 +193,7 @@ namespace projectmanagement
 
                 ExecuteNonQuery(insertQuery, new List<SQLiteParameter>
         {
-            new SQLiteParameter("@Name", project.ProjektBezeichnung),
+            new SQLiteParameter("@ProjektBezeichnung", project.ProjektBezeichnung),
             new SQLiteParameter("@Verantwortlicher", project.Verantwortlicher),
             new SQLiteParameter("@Startdatum", project.Startdatum),
             new SQLiteParameter("@Enddatum", project.Enddatum)
