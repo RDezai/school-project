@@ -85,7 +85,11 @@ namespace projectmanagement
                 EmployeeDetailsWindow employeeDetailsWindow = new EmployeeDetailsWindow(selectedEmployee);
                 employeeDetailsWindow.Owner = this;
 
-                employeeDetailsWindow.ShowDialog();
+                if (employeeDetailsWindow.ShowDialog() == true)
+                {
+                    Backend.UpdateEmployee(selectedEmployee);
+                }
+                
 
                 LoadEmployeeData();
             }

@@ -15,6 +15,14 @@ namespace projectmanagement
         private static Backend? backend;
         private SQLiteConnection connection;
 
+        public struct GanttEntry {
+            public int phaseID;
+            public string phaseName;
+            public int startTime;
+            public int duration;
+            public int width;
+        }
+
         private Backend(SQLiteConnection connection)
         {
             this.connection = connection;
@@ -180,15 +188,15 @@ namespace projectmanagement
         {
             try
             {
-                string insertQuery = $"INSERT INTO {Project.GetTableName()} (ProjektBezeichnung, VerantwortlichePersonalnummer, VonDatum, BisDatum) " +
-                                     $"VALUES (@Pr ojektBezeichnung, @VerantwortlichePersonalnummer, @VonDatum, @BisDatum)";
+                string insertQuery = $"INSERT INTO {Project.GetTableName()} (Name, Verantwortlicher, Startdatum, Enddatum) " +
+                                     $"VALUES (@Name, @Verantwortlicher, @Startdatum, @Enddatum)";
 
                 ExecuteNonQuery(insertQuery, new List<SQLiteParameter>
         {
-            new SQLiteParameter("@ProjektBezeichnung", project.ProjektBezeichnung),
-            new SQLiteParameter("@VerantwortlichePersonalnummer", project.VerantwortlichePersonalnummer),
-            new SQLiteParameter("@VonDatum", project.VonDatum),
-            new SQLiteParameter("@BisDatum", project.BisDatum)
+            new SQLiteParameter("@Name", project.ProjektBezeichnung),
+            new SQLiteParameter("@Verantwortlicher", project.Verantwortlicher),
+            new SQLiteParameter("@Startdatum", project.Startdatum),
+            new SQLiteParameter("@Enddatum", project.Enddatum)
         });
             }
             catch (Exception ex)
@@ -203,16 +211,16 @@ namespace projectmanagement
             try
             {
                 string updateQuery = $"UPDATE {Project.GetTableName()} SET ProjektBezeichnung = @ProjektBezeichnung, " +
-                                     "VerantwortlichePersonalnummer = @VerantwortlichePersonalnummer, " +
-                                     "VonDatum = @VonDatum, BisDatum = @BisDatum " +
+                                     "Verantwortlicher = @Verantwortlicher, " +
+                                     "Startdatum = @Startdatum, Enddatum = @Enddatum " +
                                      "WHERE ProjektID = @ProjektID";
 
                 ExecuteNonQuery(updateQuery, new List<SQLiteParameter>
         {
             new SQLiteParameter("@ProjektBezeichnung", project.ProjektBezeichnung),
-            new SQLiteParameter("@VerantwortlichePersonalnummer", project.VerantwortlichePersonalnummer),
-            new SQLiteParameter("@VonDatum", project.VonDatum.ToString("yyyy-MM-dd")),
-            new SQLiteParameter("@BisDatum", project.BisDatum.ToString("yyyy-MM-dd")),
+            new SQLiteParameter("@Verantwortlicher", project.Verantwortlicher),
+            new SQLiteParameter("@Startdatum", project.Startdatum.ToString("yyyy-MM-dd")),
+            new SQLiteParameter("@Enddatum", project.Enddatum.ToString("yyyy-MM-dd")),
             new SQLiteParameter("@ProjektID", project.projectID)
         });
             }
@@ -226,10 +234,10 @@ namespace projectmanagement
         {
             try
             {
-                string deleteQuery = $"DELETE FROM {Project.GetTableName()} WHERE ProjektID = @ProjektID";
+                string deleteQuery = $"DELETE FROM {Project.GetTableName()} WHERE Proj_ID = @Proj_ID";
                 ExecuteNonQuery(deleteQuery, new List<SQLiteParameter>
         {
-            new SQLiteParameter("@ProjektID", project.projectID)
+            new SQLiteParameter("@Proj_ID", project.projectID)
         });
             }
             catch (Exception ex)
@@ -258,6 +266,67 @@ namespace projectmanagement
             {
                 MessageBox.Show($"Fehler beim Hinzufügen der Projektphase: {ex.Message}", "Fehler", MessageBoxButton.OK, MessageBoxImage.Error);
             }
+        }
+
+        public static List<GanttEntry> GetGanttList(int projectID)
+        {
+           List<Projectphases> projectPhaseList = GetProjectPhasesOfProject(projectID);
+           List<GanttEntry> ganttList = new();
+
+            int totalWidth = 0;
+
+            foreach (Projectphases projectPhase in projectPhaseList)
+            {
+                GanttEntry entry = new GanttEntry();
+                entry.phaseID = projectPhase.PhasID;
+                entry.duration = projectPhase.Dauer;
+                entry.phaseName = projectPhase.Bezeichnung;
+
+                if (projectPhase.Vorg == -1) {
+                    entry.startTime = 0;
+                }
+                else {
+                    GanttEntry predecessor = ganttList.Find((GanttEntry ganttEntry) => ganttEntry.phaseID == projectPhase.Vorg);
+                    entry.startTime = predecessor.startTime + predecessor.width;
+                }
+
+                int entryWidth = entry.startTime + entry.duration;
+
+                if (totalWidth < entryWidth) {
+                    totalWidth = entryWidth;
+                }
+
+                entry.width = totalWidth - entry.startTime;
+                ganttList.Add(entry);
+            }
+
+            return ganttList;
+        }
+
+        public static List<Projectphases> GetProjectPhasesOfProject(int projectID)
+        {
+            List<Projectphases> projectPhaseList = new();
+            try
+            {
+                string selectQuery = $"SELECT * FROM {Projectphases.GetTableName()} WHERE Proj_ID = @ProjID";
+                SQLiteCommand command = new SQLiteCommand(selectQuery, backend.connection);
+                command.Parameters.AddWithValue("@ProjID", projectID);
+
+                SQLiteDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    Projectphases projectPhase = Projectphases.GetDatabaseObject(reader);
+                    projectPhaseList.Add(projectPhase);
+                }
+
+                return projectPhaseList;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Fehler beim Abrufen der Details zur Projektphase: {ex.Message}", "Fehler", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+
+            return projectPhaseList;
         }
 
         public static Projectphases GetProjectPhaseDetails(int phaseID)
@@ -303,11 +372,6 @@ namespace projectmanagement
             {
                 MessageBox.Show($"Fehler beim Hinzufügen einer neuen Projektphase: {ex.Message}", "Fehler", MessageBoxButton.OK, MessageBoxImage.Error);
             }
-        }
-
-        internal static void DeleteProject(Projectphases selectedPhase)
-        {
-            throw new NotImplementedException();
         }
     }
 }

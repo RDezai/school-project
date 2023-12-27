@@ -11,9 +11,9 @@ namespace projectmanagement
     {
         public int projectID;
         public string ProjektBezeichnung { get; set; }
-        public string VerantwortlichePersonalnummer { get; set; }
-        public DateTime VonDatum { get; set; }
-        public DateTime BisDatum { get; set; }
+        public string Verantwortlicher { get; set; }
+        public DateTime Startdatum { get; set; }
+        public DateTime Enddatum { get; set; }
 
         public static Project GetDatabaseObject(SQLiteDataReader reader)
         {
@@ -22,21 +22,21 @@ namespace projectmanagement
             project.ProjektBezeichnung = reader.GetString(1);
 
             // Check if the column is DBNull before reading
-            if (!reader.IsDBNull(2))
+            /*if (!reader.IsDBNull(2))
             {
-                project.VerantwortlichePersonalnummer = reader.GetInt32(2).ToString();
-            }
+                project.Verantwortlicher = reader.GetInt32(2).ToString();
+            }*/
 
             // Check if the column is DBNull before reading
             if (!reader.IsDBNull(3))
             {
-                project.VonDatum = reader.GetDateTime(3);
+                project.Startdatum = reader.GetDateTime(3);
             }
 
             // Check if the column is DBNull before reading
             if (!reader.IsDBNull(4))
             {
-                project.BisDatum = reader.GetDateTime(4);
+                project.Enddatum = reader.GetDateTime(4);
             }
 
             return project;

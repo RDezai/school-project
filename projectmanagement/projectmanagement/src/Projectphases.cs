@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SQLite;
 using System.Linq;
 using System.Text;
@@ -14,7 +15,7 @@ namespace projectmanagement.src
         public string Bezeichnung = "";
         public int ProjID;
         public int Dauer;
-        public string Vorg = "";
+        public int Vorg;
 
         public static Projectphases GetDatabaseObject(SQLiteDataReader reader)
         {
@@ -24,7 +25,13 @@ namespace projectmanagement.src
             Phase.Bezeichnung = reader.GetString(2);
             Phase.ProjID = reader.GetInt32(3);  // Use index 3 for ProjID
             Phase.Dauer = reader.GetInt32(4);
-            Phase.Vorg = reader.GetString(5);
+
+            if (reader.IsDBNull(5)) {
+                Phase.Vorg = -1;
+            }
+            else {
+                Phase.Vorg = reader.GetInt32(5);
+            }
 
             return Phase;
         }
