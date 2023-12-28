@@ -14,6 +14,7 @@ namespace projectmanagement
         public string Verantwortlicher { get; set; }
         public DateTime Startdatum { get; set; }
         public DateTime Enddatum { get; set; }
+  
 
         public static Project GetDatabaseObject(SQLiteDataReader reader)
         {

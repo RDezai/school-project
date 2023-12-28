@@ -10,31 +10,26 @@ namespace projectmanagement.src
 {
     public class Projectphases
     {
-        public int PhasID;
-        public string Kennung = "";
-        public string Bezeichnung = "";
-        public int ProjID;
-        public int Dauer;
-        public int Vorg;
+        public int PhasID { get; set; }
+        public string Kennung { get; set; } //for Nummer
+        public string Bezeichnung { get; set; } //for Phase
+        public int Proj_ID { get; set; }
+        public int Dauer { get; set; }
+        public int Vorgaenger { get; set; }
 
         public static Projectphases GetDatabaseObject(SQLiteDataReader reader)
         {
-            Projectphases Phase = new Projectphases();
-            Phase.PhasID = reader.GetInt32(0);
-            Phase.Kennung = reader.GetString(1);
-            Phase.Bezeichnung = reader.GetString(2);
-            Phase.ProjID = reader.GetInt32(3);  // Use index 3 for ProjID
-            Phase.Dauer = reader.GetInt32(4);
+            Projectphases phase = new Projectphases();
 
-            if (reader.IsDBNull(5)) {
-                Phase.Vorg = -1;
-            }
-            else {
-                Phase.Vorg = reader.GetInt32(5);
-            }
+            // Map only the necessary columns
+            phase.Kennung = Convert.ToString(reader["Kennung"]); // Assuming Kennung is a string
+            phase.Bezeichnung = Convert.ToString(reader["Phasenbezeichnung"]); // Assuming Phasenbezeichnung is a string
+            phase.Dauer = Convert.ToInt32(reader["Dauer"]); // Assuming Dauer is an integer
+            phase.Vorgaenger = reader.IsDBNull(reader.GetOrdinal("Vorgaenger")) ? -1 : Convert.ToInt32(reader["Vorgaenger"]); // Handling nullable integer for Vorgaenger
 
-            return Phase;
+            return phase;
         }
+
 
         public static string GetTableName()
         {
@@ -43,7 +38,7 @@ namespace projectmanagement.src
 
         public override string ToString()
         {
-            //return $"Phase: (ID: {PhasID}, Kenn: {Kennung}, Bez: {Bezeichnung}, Proj {ProjID}, Dauer {Dauer}, Vorg {Vorg})\n";
+            //return $"Phase: (ID: {PhasID}, Kenn: {Kennung}, Bez: {Bezeichnung}, Proj {ProjID}, Dauer {Dauer}, Vorgaenger {Vorgaenger})\n";
             return $"Phase: (ID: {PhasID}, Kenn: {Kennung}, Bez: {Bezeichnung}\n";
         }
     }
