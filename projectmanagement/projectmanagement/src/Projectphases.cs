@@ -23,7 +23,7 @@ namespace projectmanagement.src
 
             // Map only the necessary columns
             phase.Kennung = Convert.ToString(reader["Kennung"]); // Assuming Kennung is a string
-            phase.Bezeichnung = Convert.ToString(reader["Phasenbezeichnung"]); // Assuming Phasenbezeichnung is a string
+            phase.Bezeichnung = Convert.ToString(reader["Bezeichnung"]); // Assuming Phasenbezeichnung is a string
             phase.Dauer = Convert.ToInt32(reader["Dauer"]); // Assuming Dauer is an integer
             phase.Vorgaenger = reader.IsDBNull(reader.GetOrdinal("Vorgaenger")) ? -1 : Convert.ToInt32(reader["Vorgaenger"]); // Handling nullable integer for Vorgaenger
 
