@@ -112,10 +112,11 @@ namespace projectmanagement
         public static List<Project> GetProjectList()
         {
             string table = Project.GetTableName();
-            string selectQuery = "SELECT * FROM " + table;
+            string selectQuery = "SELECT Proj_ID, Name, Verantwortlicher, Startdatum, Enddatum FROM " + table;
 
             return ExecuteQuery(table, selectQuery, Project.GetDatabaseObject);
         }
+
 
         public static List<Projectphases> GetAllProjectPhases()
         {
