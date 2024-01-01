@@ -26,6 +26,8 @@
             <Button Content="Add" Click="AddProjectButton_Click" Margin="5"/>
             <Button Content="Edit" Click="EditProjectButton_Click" Margin="5"/>
             <Button Content="Delete" Click="DeleteProject_Click" Margin="5"/>
+            <Button Content="Gantt Diagram" Click="OpenGanttDiagram_Click" Margin="5"/>
+
         </StackPanel>
     </Grid>
 </Window>

@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows;
+using System.Windows.Controls;
 using System.Xml.Linq;
 
 namespace projectmanagement
@@ -11,20 +12,24 @@ namespace projectmanagement
     {
         public ObservableCollection<Projectphases> ProjectPhasesCollection { get; set; }
 
+        public Project currentProject { get; set; } // Initialize currentProject at class level
+
         //  list of employees for the "Verantwortlicher" selection
         private List<Employee> mitarbeiter;
 
         public ProjectDetailsWindow(Project project)
         {
             InitializeComponent();
-           
+            currentProject = project;
             // Set data context or populate fields based on the provided project
             // For simplicity, let's assume the Project class has properties Bezeichnung, Startdatum, Enddatum, etc.
             if (project != null)
             {
-                TextBoxBezeichnung.Text = project.ProjektBezeichnung;
-                DatePickerStartdatum.SelectedDate = project.Startdatum;
-                DatePickerEnddatum.SelectedDate = project.Enddatum;
+                TextBoxBezeichnung.Text = currentProject.Name;
+                TextBoxVerantwortlicher.Text = currentProject.Verantwortlicher;
+                DatePickerStartdatum.SelectedDate = currentProject.Startdatum;
+                DatePickerEnddatum.SelectedDate = currentProject.Enddatum;
+
                 // Set other fields accordingly
             }
 
@@ -47,29 +52,28 @@ namespace projectmanagement
             }
         }
 
-
-
-        private void AddProject_Click(object sender, RoutedEventArgs e)
+        private void SaveProject_Click(object sender, RoutedEventArgs e)
         {
             if (IsValidInput())
             {
-                // Create a new Project object with the entered data
-                Project newProject = new Project
+                bool isEditing = currentProject != null && currentProject.Proj_ID > 0;
+
+                // Update the project's properties from the input fields
+                currentProject.Name = TextBoxBezeichnung.Text;
+                currentProject.Verantwortlicher = TextBoxVerantwortlicher.Text;
+                currentProject.Startdatum = DatePickerStartdatum.SelectedDate.GetValueOrDefault(DateTime.Now);
+                currentProject.Enddatum = DatePickerEnddatum.SelectedDate.GetValueOrDefault(DateTime.Now.AddDays(10));
+
+                // Save or update the project
+                if (isEditing)
                 {
-                    ProjektBezeichnung = TextBoxBezeichnung.Text,
-                    Verantwortlicher = TextBoxVerantwortlicher.Text,
-                    Startdatum = DatePickerStartdatum.SelectedDate.GetValueOrDefault(DateTime.Now), // or handle null differently
-                    Enddatum = DatePickerEnddatum.SelectedDate.GetValueOrDefault(DateTime.Now)
-
-                };
-
-                Backend.UpdateProject(newProject);
-
-                /*if (Owner is ProjectsList mainWindow)
-                {
-                    mainWindow.LoadProjectData();
+                    Backend.UpdateProject(currentProject);
                 }
-                // Close the window after saving*/
+                else
+                {
+                    Backend.SaveProjectToDatabase(currentProject);
+                }
+
                 Close();
             }
             else
@@ -78,14 +82,15 @@ namespace projectmanagement
             }
         }
 
+
         private bool IsValidInput()
         {
-            return !string.IsNullOrWhiteSpace(TextBoxBezeichnung.Text) ||
-           DatePickerStartdatum.SelectedDate.HasValue ||
-           DatePickerEnddatum.SelectedDate.HasValue ||
-           !string.IsNullOrWhiteSpace(TextBoxVerantwortlicher.Text);
+            // Use && for all conditions to ensure all fields are valid
+            return !string.IsNullOrWhiteSpace(TextBoxBezeichnung.Text) &&
+                   DatePickerStartdatum.SelectedDate.HasValue &&
+                   DatePickerEnddatum.SelectedDate.HasValue &&
+                   !string.IsNullOrWhiteSpace(TextBoxVerantwortlicher.Text);
         }
-
         private void AddPhases_Click(object sender, RoutedEventArgs e)
         {
             // Create a new instance of Projectphases from the input fields.

@@ -51,7 +51,7 @@
                     <DataGridTextColumn Header="Vorgänger" Binding="{Binding Vorgaenger}" Width="SizeToHeader"/>
                 </DataGrid.Columns>
             </DataGrid>
-            <Button Content="Speichern" Click="AddProject_Click" Width="120" Margin="10,40,10,0" HorizontalAlignment="Left"/>
+            <Button Content="Speichern" Click="SaveProject_Click" Width="120" Margin="10,40,10,0" HorizontalAlignment="Left"/>
         </StackPanel>
       
     </Grid>
