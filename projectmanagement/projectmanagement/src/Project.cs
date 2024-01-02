@@ -9,23 +9,33 @@ namespace projectmanagement
 {
     public class Project
     {
-        public int projectID;
-        public string ProjektBezeichnung { get; set; }
+        public int Proj_ID;
+        public string Name { get; set; }
         public string Verantwortlicher { get; set; }
         public DateTime Startdatum { get; set; }
         public DateTime Enddatum { get; set; }
+  
 
         public static Project GetDatabaseObject(SQLiteDataReader reader)
         {
             Project project = new Project();
-            project.projectID = reader.GetInt32(0);
-            project.ProjektBezeichnung = reader.GetString(1);
+            project.Proj_ID = reader.GetInt32(0);
+            project.Name = reader.GetString(1);
 
-            // Check if the column is DBNull before reading
-            /*if (!reader.IsDBNull(2))
+            try
             {
-                project.Verantwortlicher = reader.GetInt32(2).ToString();
-            }*/
+                if (!reader.IsDBNull(2))
+                {
+                    project.Verantwortlicher = reader.GetString(2);
+                }
+            }
+            catch (InvalidCastException ex)
+            {
+                // Handle the exception or log the error.
+                // You can also set a default value for "Verantwortlicher" in case of a cast error.
+                project.Verantwortlicher = "Unknown"; // Set a default value.
+            }
+
 
             // Check if the column is DBNull before reading
             if (!reader.IsDBNull(3))
@@ -49,7 +59,7 @@ namespace projectmanagement
 
         public override string ToString()
         {
-            return $"Projekt: (ProjektID: {projectID}, Bezeichnung: {ProjektBezeichnung})\n";
+            return $"Projekt: (ProjektID: {Proj_ID}, Bezeichnung: {Name})\n";
         }
     }
 

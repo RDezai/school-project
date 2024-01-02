@@ -5,43 +5,55 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:projectmanagement"
         mc:Ignorable="d"
-        Title="Projekt Details" Height="496" Width="835">
+        Title="Projekt Details" Height="700" Width="900">
     <Grid>
         <StackPanel Margin="20">
             <!-- Project Details Section -->
-            <Label Content="Bezeichnung:"/>
-            <TextBox x:Name="TextBoxBezeichnung"/>
+            <Label Content="Bezeichnung:"  Margin="10,0,0,0"/>
+            <TextBox x:Name="TextBoxBezeichnung" Width="200" HorizontalAlignment="Left" Margin="10,0,0,0"/>
 
-            <Label Content="Startdatum:"/>
-            <DatePicker x:Name="DatePickerStartdatum"/>
+            <Label Content="Startdatum:"  Margin="10,0,0,0"/>
+            <DatePicker x:Name="DatePickerStartdatum" Width="200"  HorizontalAlignment="Left"  Margin="10,0,0,0"/>
 
-            <Label Content="Enddatum:"/>
-            <DatePicker x:Name="DatePickerEnddatum"/>
+            <Label Content="Enddatum:"  Margin="10,0,0,0"/>
+            <DatePicker x:Name="DatePickerEnddatum" Width="200" HorizontalAlignment="Left"  Margin="10,0,0,0"/>
 
-            <Label Content="Verantwortlicher:"/>
+            <Label Content="Verantwortlicher:"  Margin="10,0,0,0"/>
             <StackPanel Orientation="Horizontal">
-                <TextBox x:Name="TextBoxVerantwortlicher"/>
-                <Button Content="Auswählen" Click="SelectButton_Click"/>
+                <TextBox x:Name="TextBoxVerantwortlicher" Width="200" HorizontalAlignment="Left" Margin="10,0,0,0"/>
+                <Button Content="Auswählen" Click="SelectButton_Click" Margin="20,0,0,0"/>
             </StackPanel>
 
             <!-- Separator Line -->
             <Separator Margin="0,20,0,20"/>
 
             <!-- Phases Section -->
-            <Label Content="Nummer:"/>
-            <TextBox x:Name="TextBoxNummer"/>
+            <Label Content="Nummer:"  Margin="10,0,0,0"/>
+            <TextBox x:Name="TextBoxNummer" Width="40" HorizontalAlignment="Left" Margin="10,0,0,0"/>
 
-            <Label Content="Phase:"/>
-            <TextBox x:Name="TextBoxPhase"/>
+            <Label Content="Phase:"  Margin="10,0,0,0"/>
+            <TextBox x:Name="TextBoxPhase" Width="300" HorizontalAlignment="Left" Margin="10,0,0,0"/>
 
-            <Label Content="Dauer:"/>
-            <TextBox x:Name="TextBoxDauer"/>
+            <Label Content="Dauer:"  Margin="10,0,0,0"/>
+            <TextBox x:Name="TextBoxDauer" Width="200" Margin="10,0,0,0" HorizontalAlignment="Left"/>
 
-            <Label Content="Vorgänger:"/>
-            <TextBox x:Name="TextBoxVorgaenger"/>
+            <Label Content="Vorgänger:"  Margin="10,0,0,0"/>
+            <TextBox x:Name="TextBoxVorgaenger" Width="200" Margin="10,0,0,0" HorizontalAlignment="Left"/>
 
-            <Button Content="Hinzufügen" Click="AddProject_Click"/>
+            <Button Content="Hinzufügen" Width="120" Margin="10,40,10,0" HorizontalAlignment="Left" Click="AddPhases_Click"/>
+
+
+            <DataGrid x:Name="PhasesDataGrid" AutoGenerateColumns="False" CanUserAddRows="False" Margin="10" Width="708" HorizontalAlignment="Left">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Nummer" Binding="{Binding Kennung}" Width="SizeToHeader"/>
+                    <DataGridTextColumn Header="Phase" Binding="{Binding Bezeichnung}" Width="SizeToHeader"/>
+                    <DataGridTextColumn Header="Dauer" Binding="{Binding Dauer}" Width="SizeToHeader"/>
+                    <DataGridTextColumn Header="Vorgänger" Binding="{Binding Vorgaenger}" Width="SizeToHeader"/>
+                </DataGrid.Columns>
+            </DataGrid>
+            <Button Content="Speichern" Click="SaveProject_Click" Width="120" Margin="10,40,10,0" HorizontalAlignment="Left"/>
         </StackPanel>
-       
+      
     </Grid>
+
 </Window>

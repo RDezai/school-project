@@ -10,6 +10,7 @@ namespace projectmanagement
     public partial class ProjectsList : Window
     {
         private object newProject;
+        private Project currentProject;
 
         public ProjectsList()
         {
@@ -18,7 +19,7 @@ namespace projectmanagement
             LoadProjectData();
         }
 
-        private void LoadProjectData()
+        public void LoadProjectData()
         {
             try
             {
@@ -36,19 +37,21 @@ namespace projectmanagement
 
         private void AddProjectButton_Click(object sender, RoutedEventArgs e)
         {
-            Project newProject = new Project
+            // Initialize a new project with default values
+            currentProject = new Project
             {
-                ProjektBezeichnung = "New Project",
+                Name = "New Project",
                 Verantwortlicher = "",
                 Startdatum = DateTime.Now,
                 Enddatum = DateTime.Now.AddDays(10)
             };
 
-            ProjectDetailsWindow ProjectDetailsWindow = new ProjectDetailsWindow(new Project());
-            ProjectDetailsWindow.Owner = this;
+            // Open the ProjectDetailsWindow for the new project
+            ProjectDetailsWindow projectDetailsWindow = new ProjectDetailsWindow(currentProject);
+            projectDetailsWindow.Owner = this;
+            projectDetailsWindow.ShowDialog();
 
-            ProjectDetailsWindow.ShowDialog();
-
+            // After the window is closed, reload the project data
             LoadProjectData();
         }
 
@@ -64,17 +67,18 @@ namespace projectmanagement
             if (selectedProject != null)
             {
                 ProjectDetailsWindow projectDetailsWindow = new ProjectDetailsWindow(selectedProject);
+                projectDetailsWindow.currentProject = selectedProject; // Pass the selected project to the details window
                 projectDetailsWindow.Owner = this;
-
                 projectDetailsWindow.ShowDialog();
 
-                LoadProjectData();
+                LoadProjectData(); // Refresh the project list
             }
             else
             {
-                MessageBox.Show("Please select project to edit.", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show("Please select a project to edit.", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
             }
         }
+
 
         private void DeleteProject_Click(object sender, RoutedEventArgs e)
         {
@@ -101,5 +105,28 @@ namespace projectmanagement
                     MessageBoxImage.Information);
             }
         }
+
+        private void OpenGanttDiagram_Click(object sender, RoutedEventArgs e)
+        {
+            // Get the currently selected project from the dataGrid
+            var selectedProject = dataGrid.SelectedItem as Project;
+
+            if (selectedProject != null)
+            {
+                // Use the projectID of the selected project
+                int projectId = selectedProject.Proj_ID;
+
+                // Create and show the GanttChartWindow, passing the selected project's ID
+                GanttChartWindow ganttWindow = new GanttChartWindow(projectId);
+                ganttWindow.Show(); // or ShowDialog(), depending on your needs
+            }
+            else
+            {
+                MessageBox.Show("Please select a project first.");
+            }
+        }
+
+
+
     }
 }
