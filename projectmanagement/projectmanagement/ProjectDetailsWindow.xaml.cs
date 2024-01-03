@@ -59,7 +59,7 @@ namespace projectmanagement
                 bool isEditing = currentProject != null && currentProject.Proj_ID > 0;
 
                 // Update the project's properties from the input fields
-                currentProject.Name = TextBoxBezeichnung.Text;
+                currentProject.Name = TextBoxBezeichnung.Text + currentProject.Proj_ID;
                 currentProject.Verantwortlicher = TextBoxVerantwortlicher.Text;
                 currentProject.Startdatum = DatePickerStartdatum.SelectedDate.GetValueOrDefault(DateTime.Now);
                 currentProject.Enddatum = DatePickerEnddatum.SelectedDate.GetValueOrDefault(DateTime.Now.AddDays(10));
@@ -109,18 +109,12 @@ namespace projectmanagement
             newPhase.Dauer = dauer;
 
             // Assuming Vorgänger is optional, parse if not empty.
-            int Vorgaenger = -1;
-            if (!string.IsNullOrWhiteSpace(TextBoxVorgaenger.Text) && !int.TryParse(TextBoxVorgaenger.Text, out Vorgaenger))
-            {
-                MessageBox.Show("Bitte geben Sie eine gültige Vorgänger-ID ein oder lassen Sie das Feld leer, wenn es keine gibt.");
-                return;
-            }
-            newPhase.Vorgaenger = string.IsNullOrWhiteSpace(TextBoxVorgaenger.Text) ? -1 : Vorgaenger;
+            newPhase.Vorgaenger = string.IsNullOrWhiteSpace(TextBoxVorgaenger.Text) ? null : TextBoxVorgaenger.Text;
 
-            // Now you would insert newPhase into the database using the backend method.
+            // insert newPhase into the database using the backend method.
             Backend.AddNewProjectPhase(newPhase);
 
-            // Optionally, clear the textboxes after adding.
+            // Clear the textboxes after adding.
             ClearInputFields();
 
             // Refresh the DataGrid view if necessary.
@@ -137,7 +131,7 @@ namespace projectmanagement
 
         private void RefreshPhasesDataGrid()
         {
-            var updatedPhases = Backend.GetAllProjectPhases();
+            var updatedPhases = Backend.GetAllProjectPhases(currentProject.Proj_ID);
 
             // Clear the existing collection
             ProjectPhasesCollection.Clear();
@@ -148,16 +142,6 @@ namespace projectmanagement
                 ProjectPhasesCollection.Add(phase);
             }
         }
-
-
-
-        private void SavePhaseToDatabase(Projectphases phase)
-        {
-            // Implement database insertion logic here.
-            // This method will use ADO.NET, Entity Framework, Dapper, or another ORM/Data access tool to save 'phase' to the database.
-        }
-
-
 
     }
 }

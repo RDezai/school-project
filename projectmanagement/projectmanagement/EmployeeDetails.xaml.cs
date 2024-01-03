@@ -6,7 +6,7 @@ using System.Windows;
 using System.Windows.Controls;
 
 namespace projectmanagement
-{
+{   
     public partial class EmployeeDetailsWindow : Window
     {
         public EmployeeDetailsWindow(Employee newEmployee)
@@ -38,8 +38,10 @@ namespace projectmanagement
 
                 if (Owner is EmployeeWindow mainWindow)
                 {
-                    mainWindow.LoadEmployeeData();
+                    mainWindow.Close();
+                    mainWindow.Show();
                 }
+
                 // Close the window after saving
                 Close();
             }

@@ -118,13 +118,13 @@ namespace projectmanagement
         }
 
 
-        public static List<Projectphases> GetAllProjectPhases()
+        public static List<Projectphases> GetAllProjectPhases(int Proj_ID)
         {
             List<Projectphases> allPhases = new List<Projectphases>();
 
             try
             {
-                string selectQuery = $"SELECT * FROM {Projectphases.GetTableName()}";
+                string selectQuery = $"SELECT * FROM {Projectphases.GetTableName()} WHERE Proj_ID = "+ Proj_ID + " ";
                 SQLiteCommand command = new SQLiteCommand(selectQuery, backend.connection);
 
                 SQLiteDataReader reader = command.ExecuteReader();
@@ -287,7 +287,7 @@ namespace projectmanagement
                 MessageBox.Show($"Fehler beim Hinzufügen der Projektphase: {ex.Message}", "Fehler", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
-         public static List<GanttEntry> GetGanttList(int projectID)
+        public static List<GanttEntry> GetGanttList(int projectID)
         {
             List<Projectphases> projectPhaseList = GetProjectPhasesOfProject(projectID);
             List<GanttEntry> ganttList = new();
@@ -301,14 +301,23 @@ namespace projectmanagement
                 entry.duration = projectPhase.Dauer;
                 entry.phaseName = projectPhase.Bezeichnung;
 
-                if (projectPhase.Vorgaenger == -1)
+                if (projectPhase.Vorgaenger == null || projectPhase.Vorgaenger == "-1") // Check for no predecessor
                 {
                     entry.startTime = 0;
                 }
                 else
                 {
-                    GanttEntry predecessor = ganttList.Find((GanttEntry ganttEntry) => ganttEntry.phaseID == projectPhase.Vorgaenger);
-                    entry.startTime = predecessor.startTime + predecessor.width;
+                    // Find the predecessor by converting phaseID to string for comparison
+                    var predecessor = ganttList.Find(ganttEntry => ganttEntry.phaseName == projectPhase.Vorgaenger);
+
+                    /*if (predecessor != null)
+                    {
+                        entry.startTime = predecessor.startTime + predecessor.width;
+                    }
+                    else
+                    {
+                        entry.startTime = 0; // Default start time if no predecessor is found
+                    }*/
                 }
 
                 int entryWidth = entry.startTime + entry.duration;
@@ -318,12 +327,14 @@ namespace projectmanagement
                     totalWidth = entryWidth;
                 }
 
-                entry.width = totalWidth - entry.startTime;
+                entry.width = entry.duration; // Width should be based on duration
                 ganttList.Add(entry);
             }
 
             return ganttList;
         }
+
+
 
         public static List<Projectphases> GetProjectPhasesOfProject(int projectID)
         {

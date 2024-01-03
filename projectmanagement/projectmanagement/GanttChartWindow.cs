@@ -39,20 +39,21 @@ namespace projectmanagement
             // Define a starting point for the Y-axis
             double currentTop = 10; // 10 pixels from the top of the canvas
             double barHeight = 20; // The height of each Gantt bar
+            double scale = 10; // Scale of 10 pixels per time unit
 
             foreach (var entry in ganttEntries)
             {
                 // Create a new rectangle to represent the Gantt bar
                 Rectangle rect = new Rectangle
                 {
-                    Width = entry.duration * 10, // Assuming 10 pixels per time unit for width
+                    Width = entry.duration * scale, // Assuming 10 pixels per time unit for width
                     Height = barHeight,
                     Fill = Brushes.Blue, // Fill color for the Gantt bar
                     Stroke = Brushes.Black // Border color for the Gantt bar
                 };
 
                 // Position the rectangle on the canvas
-                Canvas.SetLeft(rect, entry.startTime * 10); // Assuming 10 pixels per time unit for positioning
+                Canvas.SetLeft(rect, entry.startTime * scale); // Assuming 10 pixels per time unit for positioning
                 Canvas.SetTop(rect, currentTop);
 
                 // Add the rectangle to the canvas
@@ -64,7 +65,7 @@ namespace projectmanagement
                     Text = entry.phaseName,
                     Foreground = Brushes.White
                 };
-                Canvas.SetLeft(txt, entry.startTime * 10);
+                Canvas.SetLeft(txt, entry.startTime * scale);
                 Canvas.SetTop(txt, currentTop);
                 GanttChartCanvas.Children.Add(txt);
 
@@ -73,7 +74,7 @@ namespace projectmanagement
             }
 
             // Update the canvas size to fit all Gantt bars
-            GanttChartCanvas.Width = ganttEntries.Max(e => e.startTime + e.duration) * 10;
+            GanttChartCanvas.Width = ganttEntries.Max(e => e.startTime + e.duration) * scale;
             GanttChartCanvas.Height = currentTop;
         }
 

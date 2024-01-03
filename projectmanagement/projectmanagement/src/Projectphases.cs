@@ -15,7 +15,7 @@ namespace projectmanagement.src
         public string Bezeichnung { get; set; } //for Phase
         public int Proj_ID { get; set; }
         public int Dauer { get; set; }
-        public int Vorgaenger { get; set; }
+        public string Vorgaenger { get; set; }
 
         public static Projectphases GetDatabaseObject(SQLiteDataReader reader)
         {
@@ -25,7 +25,7 @@ namespace projectmanagement.src
             phase.Kennung = Convert.ToString(reader["Kennung"]); // Assuming Kennung is a string
             phase.Bezeichnung = Convert.ToString(reader["Bezeichnung"]); // Assuming Phasenbezeichnung is a string
             phase.Dauer = Convert.ToInt32(reader["Dauer"]); // Assuming Dauer is an integer
-            phase.Vorgaenger = reader.IsDBNull(reader.GetOrdinal("Vorgaenger")) ? -1 : Convert.ToInt32(reader["Vorgaenger"]); // Handling nullable integer for Vorgaenger
+            phase.Vorgaenger = reader.IsDBNull(reader.GetOrdinal("Vorgaenger")) ? null : Convert.ToString(reader["Vorgaenger"]);
 
             return phase;
         }
