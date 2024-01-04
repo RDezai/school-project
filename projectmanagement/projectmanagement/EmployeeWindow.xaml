@@ -6,6 +6,15 @@
         xmlns:local="clr-namespace:projectmanagement"
         mc:Ignorable="d"
         Title="EmployeeWindow" Height="450" Width="800">
+    <Window.Resources>
+        <!-- Button Template -->
+        <ControlTemplate x:Key="StyledButtonTemplate" TargetType="Button">
+            <Border Background="#0566A4" BorderBrush="Gray" BorderThickness="1" CornerRadius="5">
+                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" Margin="20,10" Foreground="White"/>
+            </Border>
+        </ControlTemplate>
+    </Window.Resources>
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
@@ -25,9 +34,9 @@
 
         <!-- Buttons for adding, editing, and deleting employees -->
         <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="10">
-            <Button Content="Add" Click="AddButton_Click" Margin="5"/>
-            <Button Content="Edit" Click="EditButton_Click" Margin="5"/>
-            <Button Content="Delete" Click="DeleteButton_Click" Margin="5"/>
+            <Button Content="Add" Click="AddButton_Click" Margin="5" Template="{StaticResource StyledButtonTemplate}" Width="160px" Height="60px"/>
+            <Button Content="Edit" Click="EditButton_Click" Margin="5" Template="{StaticResource StyledButtonTemplate}" Width="160px" Height="60px"/>
+            <Button Content="Delete" Click="DeleteButton_Click" Margin="5" Template="{StaticResource StyledButtonTemplate}" Width="160px" Height="60px"/>
         </StackPanel>
     </Grid>
 </Window>
