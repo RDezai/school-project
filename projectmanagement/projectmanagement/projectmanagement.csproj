@@ -13,6 +13,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Include="C:\Users\carol\Documents\projectmanagementabgabe\ProjectDetailsWindow.xaml" Link="ProjectDetailsWindow.xaml" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Resource Include="src\mitarbeiter.png" />
     <Resource Include="src\projects.png" />
   </ItemGroup>

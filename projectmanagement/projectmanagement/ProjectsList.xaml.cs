@@ -60,7 +60,7 @@ namespace projectmanagement
             throw new NotImplementedException();
         }*/
 
-        private void EditProjectButton_Click(object sender, RoutedEventArgs e)
+        public void EditProjectButton_Click(object sender, RoutedEventArgs e)
         {
             Project selectedProject = dataGrid.SelectedItem as Project;
 

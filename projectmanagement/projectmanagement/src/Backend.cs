@@ -309,14 +309,14 @@ namespace projectmanagement
                 {
                     // Find the predecessor by converting phaseID to string for comparison
                     var predecessor = ganttList.Find(ganttEntry => ganttEntry.phaseName == projectPhase.Vorgaenger);
-
-                    /*if (predecessor != null)
+                    entry.startTime = predecessor.startTime + predecessor.width;
+                    /*if (!(predecessor.projectPhase.Vorgaenger == null))
                     {
-                        entry.startTime = predecessor.startTime + predecessor.width;
+                        entry.startTime = 0; // Default start time if no predecessor is found
                     }
                     else
                     {
-                        entry.startTime = 0; // Default start time if no predecessor is found
+                        entry.startTime = predecessor.startTime + predecessor.width;
                     }*/
                 }
 

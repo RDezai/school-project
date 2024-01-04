@@ -40,20 +40,24 @@ namespace projectmanagement
             double currentTop = 10; // 10 pixels from the top of the canvas
             double barHeight = 20; // The height of each Gantt bar
             double scale = 10; // Scale of 10 pixels per time unit
+            double space = 0;
+            double tempWidth = 0;
 
             foreach (var entry in ganttEntries)
             {
+                tempWidth = entry.duration * scale; // Assuming 10 pixels per time unit for width
                 // Create a new rectangle to represent the Gantt bar
                 Rectangle rect = new Rectangle
                 {
-                    Width = entry.duration * scale, // Assuming 10 pixels per time unit for width
+                    Width = tempWidth, 
                     Height = barHeight,
                     Fill = Brushes.Blue, // Fill color for the Gantt bar
                     Stroke = Brushes.Black // Border color for the Gantt bar
                 };
+                space = +tempWidth;
 
                 // Position the rectangle on the canvas
-                Canvas.SetLeft(rect, entry.startTime * scale); // Assuming 10 pixels per time unit for positioning
+                Canvas.SetLeft(rect, entry.startTime * scale + space); // Assuming 10 pixels per time unit for positioning
                 Canvas.SetTop(rect, currentTop);
 
                 // Add the rectangle to the canvas
@@ -63,7 +67,7 @@ namespace projectmanagement
                 TextBlock txt = new TextBlock
                 {
                     Text = entry.phaseName,
-                    Foreground = Brushes.White
+                    Foreground = Brushes.Black
                 };
                 Canvas.SetLeft(txt, entry.startTime * scale);
                 Canvas.SetTop(txt, currentTop);
